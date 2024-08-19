@@ -5,16 +5,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ButtonModule } from 'primeng/button';
 import { ThemeToggleComponent } from './shared/components/theme-toggle/theme-toggle.component';
-
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
+    AppComponent,
     AppComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ButtonModule,
-    ThemeToggleComponent
+    ThemeToggleComponent,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
