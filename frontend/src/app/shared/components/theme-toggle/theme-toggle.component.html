@@ -1,3 +1,1 @@
-<button (click)="toggleDarkMode()" class="p-button p-component">
-  <i class="pi" [ngClass]="isDarkMode ? 'pi-sun' : 'pi-moon'"></i>
-</button>
+<p-button class="pi" [icon]="isDarkMode? 'pi pi-sun': 'pi pi-moon'" [rounded]="true" [text]="true" (onClick)="toggleDarkMode()" />

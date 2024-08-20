@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ButtonModule } from 'primeng/button';
 import { ThemeToggleComponent } from './shared/components/theme-toggle/theme-toggle.component';
 import { HttpClientModule } from '@angular/common/http';
+import {StyleClassModule} from 'primeng/styleclass';
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,7 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     ButtonModule,
     ThemeToggleComponent,
-    HttpClientModule
+    HttpClientModule,
+    StyleClassModule
   ],
   providers: [],
   bootstrap: [AppComponent]
