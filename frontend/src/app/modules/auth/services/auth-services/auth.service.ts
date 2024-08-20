@@ -18,4 +18,13 @@ export class AuthService {
     }
     return this.http.post(url,body);
   }
+
+  public registerUser(userName: string, password: string): Observable<any>{
+    const url = `${this.baseUrl}/auth/register`;
+    const body = {
+      username: userName,
+      password: password
+    }
+    return this.http.post(url,body);
+  }
 }

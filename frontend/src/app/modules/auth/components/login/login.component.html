@@ -13,7 +13,7 @@
 
     <form [formGroup]="loginForm" (ngSubmit)="login()">
       <div class="p-field">
-        <label for="username" class="block text-900 font-medium mb-2"
+        <label for="username" class="block text-900 font-medium mb-2 mt-3"
           >Username</label
         >
         <input
@@ -22,7 +22,7 @@
           placeholder="Username"
           pInputText
           formControlName="username"
-          class="w-full mb-3"
+          class="w-full"
         />
         <small
           *ngIf="
@@ -30,11 +30,11 @@
             loginForm.controls['username'].touched
           "
         >
-          Email is required.
+          Username is required.
         </small>
       </div>
       <div class="p-field">
-        <label for="password1" class="block text-900 font-medium mb-2"
+        <label for="password1" class="block text-900 font-medium mb-2 mt-3" 
           >Password</label
         >
         <input
@@ -43,7 +43,7 @@
           placeholder="Password"
           pInputText
           formControlName="password"
-          class="w-full mb-3"
+          class="w-full"
         />
         <small
           *ngIf="
@@ -54,19 +54,19 @@
           Password is required.
         </small>
       </div>
-      <div class="flex align-items-center justify-content-between mb-6">
+      <!-- <div class="flex align-items-center justify-content-between mb-6">
         <a
           class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer"
           >Forgot password?</a
         >
-      </div>
+      </div> -->
 
       <button
         pButton
         pRipple
         label="Log In"
         icon="pi pi-user"
-        class="w-full"
+        class="w-full mt-3"
         [disabled]="loginForm.invalid"
       ></button>
     </form>
