@@ -1,5 +1,5 @@
 const authRouter = require('express').Router();
-const authController = require('../controllers/auth');
+const authController = require('../controllers/authController');
 authRouter.get('/',(req,res)=>{
   res.json({ message: "auth" });
 })

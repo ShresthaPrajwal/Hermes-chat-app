@@ -7,25 +7,17 @@ const { v4: uuidv4 } = require("uuid");
 const register = async (req, res) => {
   const { username, password } = req.body;
   try {
-    if (username === "" && password === "") {
+    if (username === "" || password === "") {
       return res.status(401).json({
-        error: "Empty Username and Password",
+        error: "Username and Password cannot be empty",
       });
     }
-    if (username === "") {
-      return res.status(401).json({
-        error: "Empty Username",
-      });
-    }
-    if (password === "") {
-      return res.status(401).json({
-        error: "Empty Password",
-      });
-    }
-
-    const user = new User({ username, password, userId: uuidv4() });
+    const user = new User({ username, password });
     await user.save();
-    res.status(201).json({ message: "User registered successfully" });
+
+    res
+      .status(201)
+      .json({ message: "User registered successfully", userId: user.userId });
   } catch (err) {
     if (err.code === 11000) {
       return res.status(400).json({
@@ -42,20 +34,19 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { username, password } = req.body;
   try {
-
-    if (username === '' && password === '') {
+    if (username === "" && password === "") {
       return res.status(401).json({
-        error: 'Empty Username and Password',
+        error: "Empty Username and Password",
       });
     }
-    if (username === '') {
+    if (username === "") {
       return res.status(401).json({
-        error: 'Empty Username',
+        error: "Empty Username",
       });
     }
-    if (password === '') {
+    if (password === "") {
       return res.status(401).json({
-        error: 'Empty Password',
+        error: "Empty Password",
       });
     }
 
