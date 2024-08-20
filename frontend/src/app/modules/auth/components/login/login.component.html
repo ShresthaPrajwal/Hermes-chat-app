@@ -71,6 +71,12 @@
         class="w-full mt-3"
         [disabled]="loginForm.invalid"
       ></button>
+
+      <div class="flex align-items-center justify-content-between w-full">
+        <div *ngIf="errorMessage" class="p-error mt-4">
+          <p>{{ errorMessage }}</p>
+        </div>
+      </div>
     </form>
   </div>
 </div>

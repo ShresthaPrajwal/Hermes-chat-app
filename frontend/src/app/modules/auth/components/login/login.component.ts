@@ -1,8 +1,9 @@
-// src/app/auth/login/login.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth-services/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth-services/auth.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +12,13 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   public loginForm!: FormGroup;
+  public errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -24,10 +30,20 @@ export class LoginComponent implements OnInit {
   public login(): void {
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value;
-      this.authService.loginUser(username, password).subscribe(response => {
-        console.log('Login successful', response);
-      }, error => {
-        console.error('Login failed', error);
+      this.authService.loginUser(username, password).pipe(
+        catchError(error => {
+          this.errorMessage = 'Login failed. Please check your credentials and try again...';
+          this.loginForm.reset();
+          setTimeout(()=>{
+            this.errorMessage = ''
+          },5000);
+          return of(null);
+        })
+      ).subscribe(response => {
+        if (response) {
+          console.log('Login successful', response);
+          this.router.navigate(['/']);
+        }
       });
     }
   }
