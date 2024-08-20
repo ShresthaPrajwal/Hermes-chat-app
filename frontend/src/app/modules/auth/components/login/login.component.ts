@@ -34,15 +34,15 @@ export class LoginComponent implements OnInit {
         catchError(error => {
           this.errorMessage = 'Login failed. Please check your credentials and try again...';
           this.loginForm.reset();
-          setTimeout(()=>{
+          setTimeout(() => {
             this.errorMessage = ''
-          },5000);
+          }, 5000);
           return of(null);
         })
       ).subscribe(response => {
         if (response) {
           console.log('Login successful', response);
-          this.router.navigate(['/']);
+          this.router.navigate(['/home/main']);
         }
       });
     }
