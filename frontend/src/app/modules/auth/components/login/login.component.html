@@ -6,7 +6,9 @@
       <span class="text-600 font-medium line-height-3"
         >Don't have an account?</span
       >
-      <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
+      <a
+        class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
+        (click)="goToRegister()"
         >Create today!</a
       >
     </div>
@@ -34,7 +36,7 @@
         </small>
       </div>
       <div class="p-field">
-        <label for="password1" class="block text-900 font-medium mb-2 mt-3" 
+        <label for="password1" class="block text-900 font-medium mb-2 mt-3"
           >Password</label
         >
         <input
