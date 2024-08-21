@@ -1,24 +1,28 @@
 const express = require("express");
 const http = require('http');
-const socketIO = require('socket.io');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const db = require("./service/db");
 const router = require("./routers/index");
-const { handleSocketConnection } = require("./controllers/socketController");
-const app = express();
-const server = http.createServer(app);
+const initializeSocket = require('./sockets/socket'); 
 
-const io = socketIO(server);
+const app = express();
+const server = http.createServer(app); 
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.set('view engine', 'ejs');
+
+app.use(express.static('public'));
+
 app.get("/", (req, res) => {
-  res.json({ message: "started" });
+  res.render("index");  
 });
+
 app.use("/api", router);
 
-handleSocketConnection(io);
-module.exports = app;
+initializeSocket(server);
+
+module.exports = { app, server };
