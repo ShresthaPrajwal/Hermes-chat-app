@@ -1,1 +1,15 @@
-<p>sidebar works!</p>
+<div class="sidebar-component">
+  <div class="sidebar-navbar">
+    <h2>Messages</h2>
+  </div>
+  <div class="search-bar">
+    <input pInputText type="text" placeholder="Search..." />
+    <!-- <p-button class="pi pi-search" [rounded]="true" [text]="true"></p-button> -->
+  </div>
+  <div class="sidebar-contents">
+    <div class="sidebar-individual-content" *ngFor="let chat of chatRooms">
+        <i class="pi pi-user"></i>
+        <p>{{ chat.name }}</p>
+    </div>
+  </div>
+</div>
