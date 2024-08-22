@@ -19,12 +19,14 @@ export class ChatContentComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.chatRoomService.roomId$.subscribe(roomId=>{
       this.userId = this.userService.getUserId();
-      console.log('curret user', this.userId)
       this.roomId = roomId;
-      console.log('Chat Room Id', roomId)
       if(this.roomId){
         this.loadMessages();
       }
+    })
+
+    this.chatService.receiveMessage().subscribe((message)=>{
+      this.messages.push(message.message);
     })
   }
 
@@ -34,7 +36,7 @@ export class ChatContentComponent implements OnInit, OnChanges {
     }
   }
 
-  loadMessages(): void {
+  public loadMessages(): void {
     if (this.roomId) {
       this.chatService.getMessages(this.roomId).subscribe((messages: any[]) => {
         this.messages = messages.map(msg => msg.content); 
@@ -43,11 +45,10 @@ export class ChatContentComponent implements OnInit, OnChanges {
     }
   }
 
-  sendMessage(): void {
+  public sendMessage(): void {
     if (this.roomId) {
       this.chatService.sendMessage(this.roomId, this.currentMessage, this.userId);
       this.currentMessage = '';
-      this.loadMessages();
     }
   }
 }

@@ -12,6 +12,7 @@ export class ChatService {
   constructor(private socket: Socket, private http: HttpClient) { }
 
   public joinRoom(roomId: string, userId: string): void {
+    console.log('Joining with ', roomId, userId)
     this.socket.emit('join room', { roomId, userId });
   }
 
@@ -24,7 +25,7 @@ export class ChatService {
   }
 
   public receiveMessage(): Observable<any> {
-    return this.socket.fromEvent('message');
+    return this.socket.fromEvent('chat message');
   }
 
   public getRooms(): Observable<any> {
