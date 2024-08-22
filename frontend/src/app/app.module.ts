@@ -12,6 +12,7 @@ import { socketConfig } from '../../environments/socket-config';
 @NgModule({
   declarations: [
     AppComponent,
+    AppComponent,
   ],
   imports: [
     BrowserModule,
