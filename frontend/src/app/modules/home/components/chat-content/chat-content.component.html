@@ -1,0 +1,13 @@
+<div class="chat-content">
+    <div class="chat-content-navbar">
+      <h2>General Chat</h2>
+    </div>
+    <div class="chat-messages">
+      <div *ngFor="let message of messages">{{ message }}</div>
+    </div>
+    <div class="chat-input-container">
+      <input class="search-input" [(ngModel)]="currentMessage" pInputText type="text" placeholder="Send Messages..." />
+      <p-button class="pi pi-send" (click)="sendMessage()" [rounded]="true" [text]="true"></p-button>
+    </div>  
+  </div>
+  

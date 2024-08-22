@@ -55,7 +55,28 @@ const getMessages = async (req, res) => {
   }
 };
 
+const getRooms = async(req, res)=>{
+  const { userId } = req.params;
+  try {
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: 'Invalid user ID format' });
+    }
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+    const chatRooms = await ChatRoom.find({ users: userObjectId });
+    
+    if (!chatRooms.length) {
+      return res.status(404).json({ message: 'No chat rooms found' });
+    }
+
+    res.json(chatRooms);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+
 module.exports = {
   createOrGetChatRoom,
   getMessages,
+  getRooms
 };

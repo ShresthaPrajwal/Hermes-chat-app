@@ -7,9 +7,10 @@ import { ButtonModule } from 'primeng/button';
 import { ThemeToggleComponent } from './shared/components/theme-toggle/theme-toggle.component';
 import { HttpClientModule } from '@angular/common/http';
 import {StyleClassModule} from 'primeng/styleclass';
+import { SocketIoModule } from 'ngx-socket-io';
+import { socketConfig } from '../../environments/socket-config';
 @NgModule({
   declarations: [
-    AppComponent,
     AppComponent,
   ],
   imports: [
@@ -18,7 +19,8 @@ import {StyleClassModule} from 'primeng/styleclass';
     ButtonModule,
     ThemeToggleComponent,
     HttpClientModule,
-    StyleClassModule
+    StyleClassModule,
+    SocketIoModule.forRoot(socketConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]

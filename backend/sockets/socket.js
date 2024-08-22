@@ -1,11 +1,16 @@
-// socket.js
-
 const ChatRoom = require("../models/chatRoom");
 const Message = require("../models/message");
 
 function initializeSocket(server) {
     const { Server } = require('socket.io');
-    const io = new Server(server);
+    
+    const io = new Server(server, {
+        cors: {
+            origin: "*", // Allow requests from your Angular frontend
+            methods: ["GET", "POST"], // Allow specific HTTP methods
+            credentials: true // Allow cookies to be sent if needed
+        }
+    });
 
     io.on('connection', (socket) => {
         console.log('A user connected');
@@ -29,6 +34,7 @@ function initializeSocket(server) {
         // Handle sending a message to a chat room
         socket.on('chat message', async ({ roomId, userId, message }) => {
             try {
+                console.log('chat message intiitatied', roomId, userId ,message)
                 const chatRoom = await ChatRoom.findOne({ roomId });
                 if (!chatRoom) {
                     return socket.emit('error', { message: 'Chat room not found' });
