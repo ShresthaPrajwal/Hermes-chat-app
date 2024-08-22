@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth-services/auth.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private UserService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -42,6 +44,7 @@ export class LoginComponent implements OnInit {
       ).subscribe(response => {
         if (response) {
           console.log('Login successful', response);
+          this.UserService.setUserId(response.userId);
           this.router.navigate(['/home/main']);
         }
       });

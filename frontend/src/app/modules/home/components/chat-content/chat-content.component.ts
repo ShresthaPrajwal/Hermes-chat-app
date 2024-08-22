@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
 import { ChatService } from '../../services/chat/chat.service';
 import { ChatRoomService } from '../../services/chat/chat-room.service';
+import { UserService } from '../../../auth/services/user.service';
 
 @Component({
   selector: 'app-chat-content',
@@ -11,12 +12,14 @@ export class ChatContentComponent implements OnInit, OnChanges {
   public messages: string[] = [];
   public currentMessage: string = '';
   private roomId: string = '';
-  private userId = '66c4113dd3e3e8210402a6c6'; 
+  private userId: string = ''; 
 
-  constructor(private chatService: ChatService, private chatRoomService: ChatRoomService) {}
+  constructor(private chatService: ChatService, private chatRoomService: ChatRoomService, private userService: UserService) {}
 
   ngOnInit(): void {
     this.chatRoomService.roomId$.subscribe(roomId=>{
+      this.userId = this.userService.getUserId();
+      console.log('curret user', this.userId)
       this.roomId = roomId;
       console.log('Chat Room Id', roomId)
       if(this.roomId){
