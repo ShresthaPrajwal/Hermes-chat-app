@@ -113,6 +113,26 @@ const addMembersToGroup = async (req, res) => {
   }
 };
 
+const removeMemberFromGroup = async (req, res) => {
+  const { roomId } = req.params;
+  const { userId } = req.body;
+
+  try {
+    const chatRoom = await ChatRoom.findOne({ roomId, isGroup: true });
+    if (!chatRoom) {
+      return res.status(404).json({ message: "Group chat not found" });
+    }
+
+    chatRoom.users = chatRoom.users.filter(id => id.toString() !== userId.toString());
+    await chatRoom.save();
+
+    res.json({ message: "Member removed successfully", roomId: chatRoom.roomId ,chatRoom});
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 const getMessages = async (req, res) => {
   const { roomId } = req.params;
   try {
@@ -157,4 +177,5 @@ module.exports = {
   getRooms,
   createGroupChat,
   addMembersToGroup,
+  removeMemberFromGroup
 };
