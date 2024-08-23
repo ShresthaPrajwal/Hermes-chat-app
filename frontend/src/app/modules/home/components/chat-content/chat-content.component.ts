@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChange, SimpleChanges, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChange, SimpleChanges, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ChatService } from '../../services/chat/chat.service';
 import { ChatRoomService } from '../../services/chat/chat-room.service';
 import { UserService } from '../../../auth/services/user.service';
@@ -13,7 +13,6 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   public currentMessage: string = '';
   public roomId: string = '';
   public userId: string = '';
-  public scrollContainer: any;
 
   @ViewChild('chatMessagesContainer') private chatMessagesContainer !: ElementRef;
 
@@ -42,7 +41,6 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.scrollContainer = this.chatMessagesContainer.nativeElement;
   }
 
   public loadMessages(): void {
@@ -59,6 +57,7 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.roomId) {
       this.chatService.sendMessage(this.roomId, this.currentMessage, this.userId);
       this.currentMessage = '';
+      this.scrollToBottom();
     }
   }
 
@@ -69,6 +68,6 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
         top: container.scrollHeight,
         behavior: 'smooth'
       });
-    }, 100); 
+    }, 500); 
   }
 }
