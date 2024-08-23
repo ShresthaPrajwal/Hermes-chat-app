@@ -1,5 +1,6 @@
 const ChatRoom = require("../models/chatRoom");
 const Message = require("../models/message");
+const User = require("../models/user")
 const mongoose = require("mongoose");
 
 const createOrGetChatRoom = async (req, res) => {
@@ -13,24 +14,33 @@ const createOrGetChatRoom = async (req, res) => {
       return res.status(400).json({ message: "Invalid user ID format" });
     }
 
-    const user1ObjectId = new mongoose.Types.ObjectId(userId1);
-    const user2ObjectId = new mongoose.Types.ObjectId(userId2);
+    const users = [
+      new mongoose.Types.ObjectId(userId1),
+      new mongoose.Types.ObjectId(userId2),
+    ].sort();
 
     let chatRoom = await ChatRoom.findOne({
-      users: { $all: [user1ObjectId, user2ObjectId] },
+      users:{ $all: users, $size:users.length},
       isDirectMessage: true,
     });
 
+    console.log('Found chatroom', chatRoom)
+
     if (!chatRoom) {
+      
+      const user1 = await User.findById(userId1);
+      const user2 = await User.findById(userId2);
+      
       chatRoom = new ChatRoom({
-        name: "Direct Message",
-        users: [userId1, userId2],
+        users: users,
         isDirectMessage: true,
+        name: `${user1.username}-${user2.username}` 
       });
       await chatRoom.save();
     }
+    
 
-    res.json({ roomId: chatRoom.roomId });
+    res.json({ roomId: chatRoom.roomId, chatRoom });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
