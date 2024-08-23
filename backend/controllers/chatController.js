@@ -72,6 +72,47 @@ const createGroupChat = async (req, res) => {
   }
 };
 
+const addMembersToGroup = async (req, res) => {
+  const { roomId } = req.params;
+  const { userIds } = req.body;
+  console.log(roomId);
+  try {
+    const chatRoom = await ChatRoom.findOne({ roomId, isGroup: true });
+    if (!chatRoom) {
+      return res.status(404).json({ message: "Group chat not found" });
+    }
+
+    const validUserIds = userIds.filter((userId) =>
+      mongoose.Types.ObjectId.isValid(userId)
+    );
+    const newUsers = validUserIds.map(
+      (userId) => new mongoose.Types.ObjectId(userId)
+    );
+
+    const usersToAdd = newUsers.filter(
+      (userId) => !chatRoom.users.includes(userId)
+    );
+
+    if (usersToAdd.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "All users are already in the group" });
+    }
+
+    chatRoom.users.push(...usersToAdd);
+    await chatRoom.save();
+
+    res.json({
+      message: "Members added successfully",
+      roomId: chatRoom.roomId,
+      chatRoom,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 const getMessages = async (req, res) => {
   const { roomId } = req.params;
   try {
@@ -114,5 +155,6 @@ module.exports = {
   createOrGetChatRoom,
   getMessages,
   getRooms,
-  createGroupChat
+  createGroupChat,
+  addMembersToGroup,
 };
