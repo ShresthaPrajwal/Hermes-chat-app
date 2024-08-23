@@ -16,7 +16,11 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
 
   @ViewChild('chatMessagesContainer') private chatMessagesContainer !: ElementRef;
 
-  constructor(private chatService: ChatService, private chatRoomService: ChatRoomService, private userService: UserService) { }
+  constructor(
+    private chatService: ChatService,
+    private chatRoomService: ChatRoomService,
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
     this.chatRoomService.roomId$.subscribe(roomId => {
@@ -28,7 +32,6 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
     })
 
     this.chatService.receiveMessage().subscribe((message) => {
-      console.log('received message', message)
       this.messages.push(message);
     })
   }
@@ -48,7 +51,6 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
       this.chatService.getMessages(this.roomId).subscribe((messages: any[]) => {
         this.messages = messages.map(msg => msg);
         this.scrollToBottom();
-        console.log('messages',this.messages);
       });
     }
   }
@@ -68,6 +70,6 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
         top: container.scrollHeight,
         behavior: 'smooth'
       });
-    }, 500); 
+    }, 500);
   }
 }

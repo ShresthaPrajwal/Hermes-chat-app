@@ -1,5 +1,6 @@
 const ChatRoom = require("../models/chatRoom");
 const Message = require("../models/message");
+const { populate } = require("../models/user");
 
 function initializeSocket(server) {
     const { Server } = require('socket.io');
@@ -49,12 +50,12 @@ function initializeSocket(server) {
 
                 await newMessage.save();
 
+                const populatedMessage = await Message.findById(newMessage._id)
+                .populate('senderId')
+                .exec();
+
                 // Emit the message to the room
-                io.to(roomId).emit('chat message', {
-                    message,
-                    userId,
-                    timestamp: newMessage.timestamp,
-                });
+                io.to(roomId).emit('chat message', populatedMessage);
             } catch (err) {
                 console.error(err);
                 socket.emit('error', { message: 'Server error' });

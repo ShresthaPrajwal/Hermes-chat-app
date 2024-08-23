@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
         })
       ).subscribe(response => {
         if (response) {
-          console.log('Login successful', response);
           this.UserService.setUserId(response.userId);
           this.router.navigate(['/home/main']);
         }
