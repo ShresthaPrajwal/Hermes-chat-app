@@ -4,6 +4,7 @@ const chatRouter = express.Router();
 
 chatRouter.get('/messages/:roomId', ChatController.getMessages);
 chatRouter.post('/direct', ChatController.createOrGetChatRoom);
+chatRouter.post('/creategroup',ChatController.createGroupChat);
 chatRouter.get('/rooms/:userId',ChatController.getRooms);
 
 module.exports = chatRouter;

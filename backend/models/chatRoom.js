@@ -11,6 +11,7 @@ const ChatRoomSchema = new mongoose.Schema({
   isDirectMessage: { type: Boolean, default: false }, 
 });
 
-ChatRoomSchema.index({ users: 1, isDirectMessage: 1 }, { unique: true });
+// Drop the previous index
+ChatRoomSchema.index({ users: 1, isDirectMessage: 1 }, { unique: true, partialFilterExpression: { isDirectMessage: true } });
 
 module.exports = mongoose.model('ChatRoom', ChatRoomSchema);
