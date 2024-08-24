@@ -2,6 +2,32 @@ const FriendRequest = require("../models/friendRequest");
 const User = require("../models/user");
 const mongoose = require("mongoose");
 
+const getFriends = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid user ID format" });
+    }
+
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
+    const user = await User.findById(userObjectId).populate(
+      "friends",
+      "username email profilePicture gender"
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ friends: user.friends });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 const sendFriendRequest = async (req, res) => {
   const { senderId, receiverId } = req.body;
 
@@ -137,7 +163,8 @@ const rejectFriendRequest = async (req, res) => {
 };
 
 module.exports = {
+    getFriends,
   sendFriendRequest,
   acceptFriendRequest,
-  rejectFriendRequest
+  rejectFriendRequest,
 };
