@@ -7,7 +7,7 @@ userRouter.get("/", (req, res) => {
 });
 
 userRouter.put(
-  "/users/:userId/profile-picture",
+  "/profile/:userId/profile-picture",
   upload.single("profilePicture"),
   usersController.updateProfilePicture
 );
