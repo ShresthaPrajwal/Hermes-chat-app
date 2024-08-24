@@ -6,5 +6,6 @@ friendRouter.get("/", (req, res) => {
 });
 
 friendRouter.post('/friendRequest',friendController.sendFriendRequest);
+friendRouter.post('/acceptRequest',friendController.acceptFriendRequest);
 
 module.exports = friendRouter;
