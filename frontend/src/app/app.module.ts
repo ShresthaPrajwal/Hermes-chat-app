@@ -9,9 +9,9 @@ import { HttpClientModule } from '@angular/common/http';
 import {StyleClassModule} from 'primeng/styleclass';
 import { SocketIoModule } from 'ngx-socket-io';
 import { socketConfig } from '../../environments/socket-config';
+import { LogoComponent } from './shared/components/logo/logo.component';
 @NgModule({
   declarations: [
-    AppComponent,
     AppComponent,
   ],
   imports: [

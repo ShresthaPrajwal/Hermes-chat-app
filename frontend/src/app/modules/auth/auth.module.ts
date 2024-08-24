@@ -10,6 +10,7 @@ import { PasswordModule } from 'primeng/password';
 import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RegisterComponent } from './components/register/register.component';
+import { LogoComponent } from '../../shared/components/logo/logo.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { RegisterComponent } from './components/register/register.component';
     InputTextModule,
     PasswordModule,
     CardModule,
-    CheckboxModule
+    CheckboxModule,
+    LogoComponent
   ],
   providers: [AuthService]
 })

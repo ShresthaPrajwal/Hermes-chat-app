@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
-  private lightTheme = 'lara-light-blue';
-  private darkTheme = 'lara-dark-blue';
+  private lightTheme: string = 'lara-light-blue';
+  private darkTheme: string = 'lara-dark-blue';
+  public themeChanged: Subject<boolean> = new Subject<boolean>();
 
   constructor() { }
 
@@ -15,6 +17,7 @@ export class ThemeService {
 
     themeLink.href = `assets/themes/${theme}/theme.css`;
     localStorage.setItem('theme', theme);
+    this.themeChanged.next(isDarkMode);
   }
 
   public loadTheme(): void {
@@ -25,6 +28,6 @@ export class ThemeService {
 
   public isDarkMode(): boolean{
     const savedTheme = localStorage.getItem('theme');
-    return savedTheme === this.darkTheme;
+    return savedTheme === this.darkTheme
   }
 }
