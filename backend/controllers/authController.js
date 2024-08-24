@@ -17,7 +17,7 @@ const register = async (req, res) => {
 
     res
       .status(201)
-      .json({ message: "User registered successfully", userId: user.userId });
+      .json({ message: "User registered successfully", userId: user.userId , user});
   } catch (err) {
     if (err.code === 11000) {
       return res.status(400).json({
@@ -59,7 +59,7 @@ const login = async (req, res) => {
       expiresIn: "1h",
     });
 
-    res.json({ username: username, userId: user.userId, token });
+    res.json({ username: username, userId: user.userId, token , user});
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

@@ -11,6 +11,26 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  profilePicture: {
+    type: String,
+    default: '',
+  },
+  gender: {
+    type: String,
+    enum: ["Male", "Female"],
+    default: "Male",
+  },
+  friends: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 UserSchema.virtual("userId").get(function () {
