@@ -22,10 +22,9 @@
       </div>
     </ng-container>
     <ng-container *ngIf="selectedTab === 'groups'">
-      <!-- Add content for groups -->
       <div
         class="sidebar-individual-content"
-        *ngFor="let chat of chatRooms"
+        *ngFor="let chat of allchatRooms"
         (click)="selectRoom(chat)"
       >
         <i class="pi pi-user"></i>

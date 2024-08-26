@@ -171,11 +171,27 @@ const getRooms = async (req, res) => {
   }
 };
 
+const getAllRooms = async (req, res) => {
+  try {
+    const chatRooms = await ChatRoom.find();
+
+    if (!chatRooms.length) {
+      return res.status(404).json({ message: "No chat rooms available" });
+    }
+
+    res.json(chatRooms);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   createOrGetChatRoom,
   getMessages,
   getRooms,
   createGroupChat,
   addMembersToGroup,
-  removeMemberFromGroup
+  removeMemberFromGroup,
+  getAllRooms
 };

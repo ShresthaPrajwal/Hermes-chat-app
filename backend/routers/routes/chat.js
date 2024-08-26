@@ -8,5 +8,6 @@ chatRouter.post('/creategroup',ChatController.createGroupChat);
 chatRouter.post('/addgroupmembers/:roomId',ChatController.addMembersToGroup);
 chatRouter.post('/removegroupmember/:roomId',ChatController.removeMemberFromGroup);
 chatRouter.get('/rooms/:userId',ChatController.getRooms);
+chatRouter.get('/allrooms',ChatController.getAllRooms)
 
 module.exports = chatRouter;

@@ -11,6 +11,7 @@ import { TabService } from '../../services/tab/tab.service';
 })
 export class SidebarComponent implements OnInit {
   public chatRooms: any[] = [];
+  public allchatRooms: any[] = [];
   public searchQuery: string = '';
   public selectedTab: string = '';
 
@@ -38,7 +39,7 @@ export class SidebarComponent implements OnInit {
     }
     if (this.selectedTab === 'groups') {
       this.chatService.getAllChatRooms().subscribe((rooms) => {
-        this.chatRooms = rooms;
+        this.allchatRooms = rooms;
       })
     }
   }
