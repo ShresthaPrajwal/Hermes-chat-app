@@ -6,11 +6,11 @@
   align-items: center;
   border: 1px solid #ccc;
   border-radius: 10px;
+  position: relative; 
 
   .profile-icon {
     text-align: center;
     margin-bottom: 20px;
-    // padding: 1em;
 
     i {
       font-size: 24px;
@@ -32,6 +32,7 @@
       cursor: pointer;
       display: flex;
       justify-content: center;
+      position: relative; 
 
       i {
         font-size: 20px;
@@ -39,22 +40,46 @@
 
       &:hover {
         color: #3498db;
+
+        .tooltip {
+          visibility: visible;
+          opacity: 1;
+          transition: opacity 0.3s ease;
+        }
+      }
+
+      .tooltip {
+        visibility: hidden;
+        opacity: 0;
+        width: 100px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 5px;
+        padding: 5px;
+        position: absolute;
+        left: 60px; /* Align to the right of the sidenav */
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+        white-space: nowrap;
+        font-size: 12px;
       }
     }
   }
 }
 
-app-logo{
-    padding: 1em;
+app-logo {
+  padding: 1em;
 }
 
-app-theme-toggle{
-    display: flex;
-    justify-content: center;
-    padding: 1em;
-    border-top: 1px solid #ccc;
+app-theme-toggle {
+  display: flex;
+  justify-content: center;
+  padding: 1em;
+  border-top: 1px solid #ccc;
 }
 
 // *{
-//     // border: 1px solid blue;
+//     border: 1px solid red;
 // }

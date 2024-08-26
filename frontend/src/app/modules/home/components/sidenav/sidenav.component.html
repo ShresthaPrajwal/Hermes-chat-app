@@ -1,22 +1,37 @@
 <div class="sidenav">
     <div class="navigation-container">
-        <app-logo width="40px"></app-logo>
-          <nav>
-            <ul>
-              <li><i class="pi pi-comments"></i></li>
-              <li><i class="pi pi-users"></i></li>
-              <li><i class="pi pi-user-plus"></i></li>
-              <li><i class="pi pi-th-large"></i></li>
-              <li><i class="pi pi-cog"></i></li>
-            </ul>
-          </nav>
+      <app-logo width="40px"></app-logo>
+      <nav>
+        <ul>
+          <li>
+            <i class="pi pi-comments"></i>
+            <span class="tooltip">Chats</span>
+          </li>
+          <li>
+            <i class="pi pi-users"></i>
+            <span class="tooltip">Peoples</span>
+          </li>
+          <li>
+            <i class="pi pi-user-plus"></i>
+            <span class="tooltip">Requests</span>
+          </li>
+          <li>
+            <i class="pi pi-th-large"></i>
+            <span class="tooltip">Groups</span>
+          </li>
+          <li>
+            <i class="pi pi-cog"></i>
+            <span class="tooltip">Settings</span>
+          </li>
+        </ul>
+      </nav>
     </div>
     <div class="theme-button">
-        <div class="profile-icon">
-            <i class="pi pi-user"></i>
-            <p>{{ username }}</p>
-          </div>
-        <app-theme-toggle></app-theme-toggle>
+      <div class="profile-icon">
+        <i class="pi pi-user"></i>
+        <p>{{ username }}</p>
+      </div>
+      <app-theme-toggle></app-theme-toggle>
     </div>
   </div>
   
