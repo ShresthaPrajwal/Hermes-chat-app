@@ -47,7 +47,9 @@ export class LoginComponent implements OnInit {
           this.UserService.setUserData({
             userId: response.userId,
             username: response.username,
-            token: response.token
+            token: response.token,
+            email: response.user.email,
+            profilePicture: response.user.profilePicture
           });
           this.router.navigate(['/home/main']);
         }
