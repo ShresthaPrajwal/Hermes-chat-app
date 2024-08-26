@@ -8,7 +8,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ListboxModule } from 'primeng/listbox';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
+import { SidebarModule } from 'primeng/sidebar';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     InputTextModule,
     ListboxModule,
     ButtonModule,
-    FormsModule
+    FormsModule,
+    SidebarModule,
+    ThemeToggleComponent
   ],
   exports: [HomeComponent]
 })

@@ -1,9 +1,10 @@
 .chat-content {
-  width: 70vw;
   padding: 1em;
   height: 90vh;
   display: flex;
   flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 10px;
 }
 
 .chat-content-navbar {

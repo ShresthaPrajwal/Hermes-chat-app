@@ -1,0 +1,54 @@
+.sidenav {
+  width: 60px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+
+  .profile-icon {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 1em;
+
+    i {
+      font-size: 24px;
+    }
+
+    p {
+      font-size: 12px;
+      margin: 5px 0 0 0;
+    }
+  }
+
+  nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin: 20px 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+
+      i {
+        font-size: 20px;
+      }
+
+      &:hover {
+        color: #3498db;
+      }
+    }
+  }
+}
+
+.theme-button{
+    padding: 1em;
+    border-top: 1px solid #ccc;
+}
+
+// *{
+//     // border: 1px solid blue;
+// }

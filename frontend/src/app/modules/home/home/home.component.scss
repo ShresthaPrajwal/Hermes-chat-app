@@ -3,7 +3,25 @@
 // }
 
 .home-page{
+    margin: 2em;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 1em;
+}
+
+app-sidenav{
+    display: flex;
+    justify-content: center;
+    border: 1px ;
+    width: 5vw;
+    // border: 1px solid green;
+}
+
+app-sidebar{
+    width: 20vw;
+}
+
+app-chat-content{
+    width: 70vw;
 }
