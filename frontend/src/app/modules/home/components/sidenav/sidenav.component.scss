@@ -47,7 +47,11 @@
           transition: opacity 0.3s ease;
         }
       }
-
+      &.active {
+        i {
+          color: #3498db;
+        }
+      }
       .tooltip {
         visibility: hidden;
         opacity: 0;
@@ -58,7 +62,7 @@
         border-radius: 5px;
         padding: 5px;
         position: absolute;
-        left: 60px; /* Align to the right of the sidenav */
+        left: 60px;
         top: 50%;
         transform: translateY(-50%);
         z-index: 1;
@@ -92,7 +96,7 @@ app-theme-toggle {
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid ;
+  border: 1px solid;
 }
 
 .profile-icon i {

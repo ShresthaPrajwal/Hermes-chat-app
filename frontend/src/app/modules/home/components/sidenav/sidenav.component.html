@@ -1,42 +1,57 @@
 <div class="sidenav">
-    <div class="navigation-container">
-      <app-logo width="40px"></app-logo>
-      <nav>
-        <ul>
-          <li>
-            <i class="pi pi-comments"></i>
-            <span class="tooltip">Chats</span>
-          </li>
-          <li>
-            <i class="pi pi-users"></i>
-            <span class="tooltip">Peoples</span>
-          </li>
-          <li>
-            <i class="pi pi-user-plus"></i>
-            <span class="tooltip">Requests</span>
-          </li>
-          <li>
-            <i class="pi pi-th-large"></i>
-            <span class="tooltip">Groups</span>
-          </li>
-          <li>
-            <i class="pi pi-cog"></i>
-            <span class="tooltip">Settings</span>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <div class="theme-button">
-      <div class="profile-icon">
-        <ng-container *ngIf="profilePicture; else defaultIcon">
-          <img [src]="profilePicture" alt="Profile Picture" class="profile-picture" />
-        </ng-container>
-        <ng-template #defaultIcon>
-          <i class="pi pi-user"></i>
-        </ng-template>
-        <p>{{ username }}</p>
-      </div>
-      <app-theme-toggle></app-theme-toggle>
-    </div>
+  <div class="navigation-container">
+    <app-logo width="40px"></app-logo>
+    <nav>
+      <ul>
+        <li
+          [class.active]="tabService.getSelectedTab() === 'chats'"
+          (click)="selectTab('chats')"
+        >
+          <i class="pi pi-comments"></i>
+          <span class="tooltip">Chats</span>
+        </li>
+        <li
+          [class.active]="tabService.getSelectedTab() === 'groups'"
+          (click)="selectTab('groups')"
+        >
+          <i class="pi pi-th-large"></i>
+          <span class="tooltip">Groups</span>
+        </li>
+        <li
+          [class.active]="tabService.getSelectedTab() === 'peoples'"
+          (click)="selectTab('peoples')"
+        >
+          <i class="pi pi-users"></i>
+          <span class="tooltip">Peoples</span>
+        </li>
+        <li
+          [class.active]="tabService.getSelectedTab() === 'requests'"
+          (click)="selectTab('requests')"
+        >
+          <i class="pi pi-user-plus"></i>
+          <span class="tooltip">Requests</span>
+        </li>
+        <li>
+          <i class="pi pi-cog"></i>
+          <span class="tooltip">Settings</span>
+        </li>
+      </ul>
+    </nav>
   </div>
-  
+  <div class="theme-button">
+    <div class="profile-icon">
+      <ng-container *ngIf="profilePicture; else defaultIcon">
+        <img
+          [src]="profilePicture"
+          alt="Profile Picture"
+          class="profile-picture"
+        />
+      </ng-container>
+      <ng-template #defaultIcon>
+        <i class="pi pi-user"></i>
+      </ng-template>
+      <p>{{ username }}</p>
+    </div>
+    <app-theme-toggle></app-theme-toggle>
+  </div>
+</div>
