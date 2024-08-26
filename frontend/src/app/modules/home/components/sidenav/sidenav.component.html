@@ -1,9 +1,6 @@
 <div class="sidenav">
     <div class="navigation-container">
-        <div class="profile-icon">
-            <i class="pi pi-user"></i>
-            <p>{{ username }}</p>
-          </div>
+        <app-logo width="40px"></app-logo>
           <nav>
             <ul>
               <li><i class="pi pi-comments"></i></li>
@@ -15,6 +12,10 @@
           </nav>
     </div>
     <div class="theme-button">
+        <div class="profile-icon">
+            <i class="pi pi-user"></i>
+            <p>{{ username }}</p>
+          </div>
         <app-theme-toggle></app-theme-toggle>
     </div>
   </div>

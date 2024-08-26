@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { SidebarModule } from 'primeng/sidebar';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
+import { LogoComponent } from '../../shared/components/logo/logo.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme
     ButtonModule,
     FormsModule,
     SidebarModule,
-    ThemeToggleComponent
+    ThemeToggleComponent,
+    LogoComponent
   ],
   exports: [HomeComponent]
 })
