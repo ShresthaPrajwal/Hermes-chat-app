@@ -28,7 +28,12 @@
     </div>
     <div class="theme-button">
       <div class="profile-icon">
-        <i class="pi pi-user"></i>
+        <ng-container *ngIf="profilePicture; else defaultIcon">
+          <img [src]="profilePicture" alt="Profile Picture" class="profile-picture" />
+        </ng-container>
+        <ng-template #defaultIcon>
+          <i class="pi pi-user"></i>
+        </ng-template>
         <p>{{ username }}</p>
       </div>
       <app-theme-toggle></app-theme-toggle>

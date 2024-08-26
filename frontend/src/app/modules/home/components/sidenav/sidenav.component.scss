@@ -6,7 +6,7 @@
   align-items: center;
   border: 1px solid #ccc;
   border-radius: 10px;
-  position: relative; 
+  position: relative;
 
   .profile-icon {
     text-align: center;
@@ -32,7 +32,7 @@
       cursor: pointer;
       display: flex;
       justify-content: center;
-      position: relative; 
+      position: relative;
 
       i {
         font-size: 20px;
@@ -80,6 +80,28 @@ app-theme-toggle {
   border-top: 1px solid #ccc;
 }
 
+.profile-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-picture {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid ;
+}
+
+.profile-icon i {
+  font-size: 32px;
+}
+
+.profile-icon p {
+  margin: 0;
+}
 // *{
 //     border: 1px solid red;
 // }

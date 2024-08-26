@@ -9,10 +9,12 @@ import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle
 })
 export class SidenavComponent implements OnInit{
   public username: string = '';
+  public profilePicture: string = '';
 
   constructor(private userService: UserService){}
 
   ngOnInit(): void {
     this.username = this.userService.getUsername();
+    this.profilePicture = this.userService.getProfilePicture();
   }
 }
