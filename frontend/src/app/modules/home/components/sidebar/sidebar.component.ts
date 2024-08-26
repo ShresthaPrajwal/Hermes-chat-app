@@ -19,12 +19,12 @@ export class SidebarComponent implements OnInit {
     private chatRoomService: ChatRoomService,
     private userService: UserService,
     private tabService: TabService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.tabService.selectedTab$.subscribe(tab => {
       this.selectedTab = tab;
-      this.loadChatRooms(); 
+      this.loadChatRooms();
     });
 
     this.loadChatRooms();
@@ -35,6 +35,11 @@ export class SidebarComponent implements OnInit {
       this.chatService.getChatRooms(this.userService.getUserId()).subscribe((rooms) => {
         this.chatRooms = rooms;
       });
+    }
+    if (this.selectedTab === 'groups') {
+      this.chatService.getAllChatRooms().subscribe((rooms) => {
+        this.chatRooms = rooms;
+      })
     }
   }
 

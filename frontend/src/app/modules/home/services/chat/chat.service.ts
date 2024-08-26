@@ -35,5 +35,9 @@ export class ChatService {
   public getMessages(roomId: string): Observable<any>{
     return this.http.get(`${this.baseUrl}/chat/messages/${roomId}`)
   }
+
+  public getAllChatRooms(): Observable<any[]>{
+    return this.http.get<any[]>(`${this.baseUrl}/chat/allrooms`);
+  }
 }
 

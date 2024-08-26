@@ -3,18 +3,34 @@
     <h2>{{ selectedTab | titlecase }}</h2>
   </div>
   <div class="search-bar">
-    <input pInputText type="text" placeholder="Search..." [(ngModel)]="searchQuery" />
+    <input
+      pInputText
+      type="text"
+      placeholder="Search..."
+      [(ngModel)]="searchQuery"
+    />
   </div>
   <div class="sidebar-contents">
     <ng-container *ngIf="selectedTab === 'chats'">
-      <div class="sidebar-individual-content" *ngFor="let chat of chatRooms" (click)="selectRoom(chat)">
+      <div
+        class="sidebar-individual-content"
+        *ngFor="let chat of chatRooms"
+        (click)="selectRoom(chat)"
+      >
         <i class="pi pi-user"></i>
         <p>{{ chat.name }}</p>
       </div>
     </ng-container>
     <ng-container *ngIf="selectedTab === 'groups'">
       <!-- Add content for groups -->
-      <p>Groups content here</p>
+      <div
+        class="sidebar-individual-content"
+        *ngFor="let chat of chatRooms"
+        (click)="selectRoom(chat)"
+      >
+        <i class="pi pi-user"></i>
+        <p>{{ chat.name }}</p>
+      </div>
     </ng-container>
     <ng-container *ngIf="selectedTab === 'peoples'">
       <!-- Add content for peoples -->
