@@ -44,7 +44,11 @@ export class LoginComponent implements OnInit {
       ).subscribe(response => {
         if (response) {
           console.log('User logged in', response)
-          this.UserService.setUserId(response.userId);
+          this.UserService.setUserData({
+            userId: response.userId,
+            username: response.username,
+            token: response.token
+          });
           this.router.navigate(['/home/main']);
         }
       });

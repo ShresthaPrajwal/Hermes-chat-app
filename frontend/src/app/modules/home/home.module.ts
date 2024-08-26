@@ -8,12 +8,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ListboxModule } from 'primeng/listbox';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     SidebarComponent,
-    ChatContentComponent
+    ChatContentComponent,
+    SidenavComponent
   ],
   imports: [
     CommonModule,
