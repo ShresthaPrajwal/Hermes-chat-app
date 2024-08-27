@@ -7,12 +7,16 @@ const { v4: uuidv4 } = require("uuid");
 const register = async (req, res) => {
   const { username, password, email } = req.body;
   try {
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     if (username === "" || password === "" || email === "") {
       return res.status(401).json({
         error: "Username and Password and email cannot be empty",
       });
     }
-    const user = new User({ username, password, email });
+    const user = new User({ username, password: hashedPassword, email });
     await user.save();
 
     res

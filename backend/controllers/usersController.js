@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs/dist/bcrypt");
 const User = require("../models/user");
 const { uploadPhotoToFirebase } = require("../utils/firebaseUtils");
 
@@ -44,7 +45,22 @@ const updateProfilePicture = async (req, res) => {
   }
 };
 
+const updateUserPassword = async (req, res) => {
+  const { userId, newPassword } = req.body;
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    const updatedUser = await User.findByIdAndUpdate(userId, { password: hashedPassword });
+    res.json({updatedUser,message:'Password Updated Succesfully'})
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({error})
+  }
+};
+
 module.exports = {
   updateProfilePicture,
-  getAllUsers
+  getAllUsers,
+  updateUserPassword
 };

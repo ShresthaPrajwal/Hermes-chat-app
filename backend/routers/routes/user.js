@@ -13,5 +13,6 @@ userRouter.put(
   upload.single("profilePicture"),
   usersController.updateProfilePicture
 );
+userRouter.put('/profile/password',usersController.updateUserPassword);
 
 module.exports = userRouter;
