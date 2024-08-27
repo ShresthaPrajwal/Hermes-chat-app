@@ -39,5 +39,13 @@ export class ChatService {
   public getAllChatRooms(): Observable<any[]>{
     return this.http.get<any[]>(`${this.baseUrl}/chat/allrooms`);
   }
+
+  public addGroupMember(roomId: string, userId: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/chat/addgroupmembers/${roomId}`, { userIds: [userId] });
+  }
+
+  public removeGroupMember(roomId: string, userId: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/chat/removegroupmember/${roomId}`, { userId });
+  }
 }
 

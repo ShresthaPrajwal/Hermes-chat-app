@@ -11,32 +11,47 @@
     />
   </div>
   <div class="sidebar-contents">
-    <ng-container *ngIf="selectedTab === 'chats'">
+    <div *ngIf="selectedTab === 'chats'" class="sidebar-contents-overflow">
       <div
-        class="sidebar-individual-content"
+        class="sidebar-individual-content-chats"
         *ngFor="let chat of chatRooms"
         (click)="selectRoom(chat)"
       >
         <i class="pi pi-user"></i>
-        <p>{{ chat.name }}</p>
+        <h4>{{ chat.name }}</h4>
       </div>
-    </ng-container>
-    <ng-container *ngIf="selectedTab === 'groups'">
+    </div>
+    <div *ngIf="selectedTab === 'groups'" class="sidebar-contents-overflow">
       <div
         class="sidebar-individual-content"
-        *ngFor="let chat of allchatRooms"
-        (click)="selectRoom(chat)"
+        *ngFor="let group of allChatRooms"
       >
-        <i class="pi pi-user"></i>
-        <p>{{ chat.name }}</p>
+        <div class="pic-name">
+          <i class="pi pi-users"></i>
+          <h4>{{ group.name }}</h4>
+        </div>
+        <p-button
+          label="Join"
+          [text]="true"
+          severity="secondary"
+          *ngIf="!isUserInRoom(group)"
+          (click)="joinGroup(group)"
+          class="join-leave-button"
+        ></p-button>
+        <p-button
+          label="Leave"
+          [text]="true"
+          severity="secondary"
+          *ngIf="isUserInRoom(group)"
+          (click)="leaveGroup(group)"
+          class="join-leave-button"
+        ></p-button>
       </div>
-    </ng-container>
+    </div>
     <ng-container *ngIf="selectedTab === 'peoples'">
-      <!-- Add content for peoples -->
       <p>Peoples content here</p>
     </ng-container>
     <ng-container *ngIf="selectedTab === 'requests'">
-      <!-- Add content for requests -->
       <p>Requests content here</p>
     </ng-container>
   </div>

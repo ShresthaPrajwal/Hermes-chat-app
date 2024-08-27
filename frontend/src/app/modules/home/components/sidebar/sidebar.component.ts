@@ -1,3 +1,4 @@
+// sidebar.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../../services/chat/chat.service';
 import { ChatRoomService } from '../../services/chat/chat-room.service';
@@ -11,7 +12,7 @@ import { TabService } from '../../services/tab/tab.service';
 })
 export class SidebarComponent implements OnInit {
   public chatRooms: any[] = [];
-  public allchatRooms: any[] = [];
+  public allChatRooms: any[] = [];
   public searchQuery: string = '';
   public selectedTab: string = '';
 
@@ -39,13 +40,29 @@ export class SidebarComponent implements OnInit {
     }
     if (this.selectedTab === 'groups') {
       this.chatService.getAllChatRooms().subscribe((rooms) => {
-        this.allchatRooms = rooms;
-      })
+        this.allChatRooms = rooms;
+      });
     }
   }
 
   public selectRoom(room: any): void {
     this.chatRoomService.setRoomId(room.roomId);
     this.chatService.joinRoom(room.roomId, this.userService.getUserId());
+  }
+
+  public joinGroup(room: any): void {
+    this.chatService.addGroupMember(room.roomId, this.userService.getUserId()).subscribe(() => {
+      this.loadChatRooms(); 
+    });
+  }
+
+  public leaveGroup(room: any): void {
+    this.chatService.removeGroupMember(room.roomId, this.userService.getUserId()).subscribe(() => {
+      this.loadChatRooms(); 
+    });
+  }
+
+  public isUserInRoom(room: any): boolean {
+    return room.users.includes(this.userService.getUserId());
   }
 }

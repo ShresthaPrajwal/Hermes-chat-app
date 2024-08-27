@@ -12,7 +12,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 import { LogoComponent } from '../../shared/components/logo/logo.component';
-
+import { MenuModule } from 'primeng/menu';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -28,6 +28,7 @@ import { LogoComponent } from '../../shared/components/logo/logo.component';
     ButtonModule,
     FormsModule,
     SidebarModule,
+    MenuModule,
     ThemeToggleComponent,
     LogoComponent
   ],
