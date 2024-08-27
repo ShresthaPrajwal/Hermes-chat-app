@@ -49,7 +49,10 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   public loadMessages(): void {
     if (this.roomId) {
       this.chatService.getMessages(this.roomId).subscribe((messages: any[]) => {
-        this.messages = messages.map(msg => msg);
+        console.log('here are messages', messages)
+        this.messages = messages
+          .filter(msg => msg.senderId !== null)
+          .map(msg => msg);
         this.scrollToBottom();
       });
     }
