@@ -3,7 +3,10 @@ const { uploadPhotoToFirebase } = require("../utils/firebaseUtils");
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({}, '-password');
+    const users = await User.find({}, '-password -__v')  
+      .populate('friends', 'username email profilePicture') 
+      .populate('friendRequestsSent', 'toUser status')  
+      .populate('friendRequestsReceived', 'fromUser status');
 
     res.json(users);
   } catch (err) {
