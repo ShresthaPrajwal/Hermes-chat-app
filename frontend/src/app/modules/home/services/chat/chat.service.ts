@@ -47,5 +47,9 @@ export class ChatService {
   public removeGroupMember(roomId: string, userId: string): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/chat/removegroupmember/${roomId}`, { userId });
   }
+
+  public createGroup(name: string, userIds: string[]): Observable<any>{
+    return this.http.post(`${this.baseUrl}/chat/creategroup`,{name,userIds});
+  }
 }
 
