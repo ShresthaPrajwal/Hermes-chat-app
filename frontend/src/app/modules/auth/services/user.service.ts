@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,7 @@ export class UserService {
   private friendRequestsSentSubject = new BehaviorSubject<string[] | null>(null);
   public friendRequestsSent$ = this.friendRequestsSentSubject.asObservable();
 
-  constructor() {
+  constructor(private http: HttpClient) {
     const storedUserId = localStorage.getItem('userId');
     const storedUsername = localStorage.getItem('username');
     const storedProfilePicture = localStorage.getItem('profilePicture');
@@ -164,6 +166,8 @@ export class UserService {
   public declineFriendRequest(userId: string): void {
     this.removeFriendRequest(userId);
   }
+
+  
 
   public clearUserData(): void {
     this.userIdSubject.next(null);

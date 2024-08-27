@@ -16,4 +16,16 @@ export class FriendService {
   public sendFriendRequest(senderId: string, receiverId: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/friend/friendRequest`, { senderId, receiverId });
   }
+
+  public acceptFriendRequest(requestId: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/friend/acceptRequest`, { requestId });
+  }
+
+  public rejectFriendRequest(requestId: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/friend/rejectRequest`, { requestId });
+  }
+
+  public fetchFriendRequests(userId: string): Observable<any> {
+    return this.http.get<any>(`${environment.baseUrl}/friend/getFriendRequests/${userId}`);
+  }
 }

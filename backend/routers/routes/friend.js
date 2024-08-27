@@ -5,7 +5,8 @@ friendRouter.get("/", (req, res) => {
   res.json({ message: "friend" });
 });
 
-friendRouter.get('/getFriends/:userId',friendController.getFriends)
+friendRouter.get('/getFriends/:userId',friendController.getFriends);
+friendRouter.get('/getFriendRequests/:userId',friendController.getFriendRequestsByUserId)
 friendRouter.post('/friendRequest',friendController.sendFriendRequest);
 friendRouter.post('/acceptRequest',friendController.acceptFriendRequest);
 friendRouter.post('/rejectRequest',friendController.rejectFriendRequest);

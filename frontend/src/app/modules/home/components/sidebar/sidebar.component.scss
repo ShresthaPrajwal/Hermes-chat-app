@@ -115,3 +115,28 @@ p-button.join-leave-button ::ng-deep button[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+p-button.join-leave-button ::ng-deep button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  height: auto;
+  line-height: 1.2;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+
+  &:hover {
+    border: 1px solid #3498db;
+  }
+}
+
+.friend-request{
+  flex-direction: column;
+  .requests-buttons{
+    // border: 1px solid red;
+    display: flex;
+    gap:0.5em;
+    justify-content: space-between;
+  }
+}
+
+

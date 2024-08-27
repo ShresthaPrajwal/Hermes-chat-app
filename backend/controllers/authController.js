@@ -49,14 +49,15 @@ const login = async (req, res) => {
         error: "Empty Password",
       });
     }
-
+    console.log('Username,pass',username,password)
     const user = await User.findOne({ username });
-
-    if (!user || !(await user.matchPassword(password))) {
+      console.log('user',user)
+    let matchPasswordcheck = await user.matchPassword(password);
+    if (!user || !matchPasswordcheck) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
     const token = jwt.sign({ id: user._id }, config.SECRET_KEY, {
-      expiresIn: "1h",
+      expiresIn: "10000h",
     });
 
     res.json({ username: username, userId: user.userId, token , user});

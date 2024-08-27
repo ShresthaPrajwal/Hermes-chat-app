@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
       const { username, password } = this.loginForm.value;
       this.authService.loginUser(username, password).pipe(
         catchError(error => {
+          console.log(error)
           this.errorMessage = 'Login failed. Please check your credentials and try again...';
           this.loginForm.reset();
           setTimeout(() => {

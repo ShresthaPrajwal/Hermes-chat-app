@@ -18,7 +18,7 @@ export class SidebarComponent implements OnInit {
   public selectedTab: string = '';
   public allUsers: any[] = [];
   public friends: any[] = [];
-  public friendRequests: string[] = [];
+  public friendRequests: any[] = [];
   public sentFriendRequests: string[] = []; 
 
   constructor(
@@ -37,8 +37,7 @@ export class SidebarComponent implements OnInit {
     });
 
     this.friends = this.userService.getFriends();
-    this.sentFriendRequests = this.userService.getFriendRequestsSent(); // Load sent friend requests
-
+    this.sentFriendRequests = this.userService.getFriendRequestsSent();
     this.loadChatRooms();
   }
 
@@ -61,6 +60,14 @@ export class SidebarComponent implements OnInit {
         this.allUsers = users.filter(user => !this.friends.includes(user.userId) && user.userId !== currentUserId);
         this.friendRequests = users.filter(user => friendRequestsIds.includes(user.userId));
       });
+    }
+
+    if(this.selectedTab === 'requests') {
+      this.friendService.fetchFriendRequests(this.userService.getUserId()).subscribe(
+        requests=>{
+          this.friendRequests = requests.friendRequests;
+        }
+      )
     }
   }
 
@@ -97,14 +104,19 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  public acceptFriendRequest(userId: string): void {
-    this.userService.acceptFriendRequest(userId);
-    this.friendRequests = this.userService.getFriendRequests(); 
+  public acceptFriendRequest(requestId: string): void {
+    this.friendService.acceptFriendRequest(requestId).subscribe((acceptResponse) => {
+      console.log('response of accp',acceptResponse.id)
+
+      this.userService.acceptFriendRequest(acceptResponse.sender.id);
+    });
   }
 
-  public declineFriendRequest(userId: string): void {
-    this.userService.declineFriendRequest(userId);
-    this.friendRequests = this.userService.getFriendRequests(); 
+  public declineFriendRequest(requestId: string): void {
+    this.friendService.rejectFriendRequest(requestId).subscribe((rejectResponse) => {
+      console.log('response of rej',rejectResponse.id)
+      this.userService.declineFriendRequest(rejectResponse.sender.id);
+    });
   }
 
   public hasSentRequest(userId: string): boolean {

@@ -53,7 +53,7 @@ const sendFriendRequest = async (req, res) => {
     });
 
     if (existingRequest) {
-      return res.status(400).json({ message: "Friend request already sent" });
+      return res.status(200).json({ message: "Friend request already sent" });
     }
 
     const request = new FriendRequest({
@@ -155,16 +155,39 @@ const rejectFriendRequest = async (req, res) => {
     await receiver.save();
     await sender.save();
 
-    res.json({ message: "Friend request rejected" });
+    res.json({ message: "Friend request rejected",sender,receiver });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
+const getFriendRequestsByUserId = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid user ID format" });
+    }
+
+    const friendRequests = await FriendRequest.find({
+      receiver: userId,
+      status: 'pending'
+    }).populate('sender', 'username profilePicture')
+      .populate('receiver', 'username profilePicture');
+
+    res.json({ friendRequests });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
 module.exports = {
     getFriends,
   sendFriendRequest,
   acceptFriendRequest,
   rejectFriendRequest,
+  getFriendRequestsByUserId
 };

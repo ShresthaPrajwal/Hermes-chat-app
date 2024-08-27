@@ -72,24 +72,31 @@
     </div>
     
     <ng-container *ngIf="selectedTab === 'requests'">
-      <div class="friend-request" *ngFor="let request of friendRequests">
-        <div class="peoples-pic-name">
-          <i class="pi pi-user"></i>
-          <p>{{ request }}</p>
-        </div>
-        <p-button
-          label="Accept"
-          [text]="true"
-          severity="success"
-          (click)="acceptFriendRequest(request)"
-        ></p-button>
-        <p-button
-          label="Decline"
-          [text]="true"
-          severity="danger"
-          (click)="declineFriendRequest(request)"
-        ></p-button>
-      </div>
-    </ng-container>
+  <div class="friend-request" *ngFor="let request of friendRequests">
+    <div class="peoples-pic-name">
+      <i *ngIf="!request.sender.profilePicture" class="pi pi-user"></i>
+      <img *ngIf="request.sender.profilePicture" [src]="request.sender.profilePicture" alt="Profile Picture" />
+      <p>{{ request.sender.username }}</p>
+    </div>
+    <div class="requests-buttons">
+      <p-button
+        label="Accept"
+        [text]="true"
+        severity="success"
+        (click)="acceptFriendRequest(request._id)"
+        class="join-leave-button"
+      ></p-button>
+      <p-button
+        label="Decline"
+        [text]="true"
+        severity="danger"
+        (click)="declineFriendRequest(request._id)"
+        class="join-leave-button"
+      ></p-button>
+    </div>
+  </div>
+</ng-container>
+
+    
   </div>
 </div>
