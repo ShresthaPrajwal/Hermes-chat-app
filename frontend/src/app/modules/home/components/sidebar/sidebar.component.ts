@@ -77,7 +77,8 @@ export class SidebarComponent implements OnInit {
   }
 
   public selectRoom(room: any): void {
-    this.chatRoomService.setRoomId(room.roomId);
+    console.log('selecr',room)
+    this.chatRoomService.setRoomId(room._id);
     this.chatService.joinRoom(room.roomId, this.userService.getUserId());
   }
 

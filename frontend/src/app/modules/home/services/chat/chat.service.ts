@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { Observable } from 'rxjs';
+import { Observable, ObservableLike } from 'rxjs';
 import { environment } from '../../../../../../environments/environment';
 
 @Injectable({
@@ -50,6 +50,10 @@ export class ChatService {
 
   public createGroup(name: string, userIds: string[]): Observable<any>{
     return this.http.post(`${this.baseUrl}/chat/creategroup`,{name,userIds});
+  }
+
+  public getRoomInfo(roomId: string): Observable<any>{
+    return this.http.get<any>(`${this.baseUrl}/chat/getroominfo/${roomId}`);
   }
 }
 
