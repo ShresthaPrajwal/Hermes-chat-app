@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const config = require("../config/config");
 const { v4: uuidv4 } = require("uuid");
+const bcrypt = require("bcryptjs/dist/bcrypt");
 
 // Register a new user
 const register = async (req, res) => {
@@ -54,7 +55,7 @@ const login = async (req, res) => {
       });
     }
     console.log('Username,pass',username,password)
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).populate('friends');
       console.log('user',user)
     let matchPasswordcheck = await user.matchPassword(password);
     if (!user || !matchPasswordcheck) {

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ButtonModule } from 'primeng/button';
@@ -19,6 +19,8 @@ import { LogoComponent } from './shared/components/logo/logo.component';
     AppRoutingModule,
     ButtonModule,
     ThemeToggleComponent,
+    BrowserAnimationsModule,
+    NoopAnimationsModule,
     HttpClientModule,
     StyleClassModule,
     SocketIoModule.forRoot(socketConfig)

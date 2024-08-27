@@ -9,6 +9,8 @@ import { ListboxModule } from 'primeng/listbox';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { SidebarModule } from 'primeng/sidebar';
+import { DialogModule } from 'primeng/dialog';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 import { LogoComponent } from '../../shared/components/logo/logo.component';
@@ -29,6 +31,8 @@ import { MenuModule } from 'primeng/menu';
     FormsModule,
     SidebarModule,
     MenuModule,
+    DialogModule,
+    MultiSelectModule,
     ThemeToggleComponent,
     LogoComponent
   ],

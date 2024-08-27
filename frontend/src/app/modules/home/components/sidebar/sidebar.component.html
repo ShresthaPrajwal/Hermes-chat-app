@@ -1,7 +1,33 @@
 <div class="sidebar-component">
   <div class="sidebar-navbar">
     <h2>{{ selectedTab | titlecase }}</h2>
+    <p-button class="group-create-btn" (click)="openGroupCreationModal()" [text]="true">
+      <i class="pi pi-pen-to-square"></i>
+    </p-button>
   </div>
+  <p-dialog header="Create Group" [(visible)]="groupModalVisible" [modal]="true" [closable]="true">
+    <div class="create-group-form">
+      <label for="groupName">Group Name</label>
+      <input pInputText type="text" [(ngModel)]="groupName" placeholder="Enter group name" />
+  
+      <label for="friends">Select Friends</label>
+  <div id="friends" class="friends-list">
+    <div *ngFor="let friend of friends" class="friend-item">
+      <input
+        type="checkbox"
+        [value]="friend.userId"
+        (change)="onFriendSelection($event, friend)"
+        id="{{ friend.userId }}"
+      />
+      <label for="{{ friend.userId }}">
+        <span>{{ friend.username }}</span>
+      </label>
+    </div>
+  </div>
+  
+      <p-button label="Create Group" (click)="createGroup()" [disabled]="!groupName || selectedFriends.length === 0"></p-button>
+    </div>
+  </p-dialog>
   <div class="search-bar">
     <input
       pInputText

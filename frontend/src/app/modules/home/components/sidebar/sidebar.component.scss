@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  // border: 1px solid red;
 }
 
 .sidebar-component {
@@ -29,6 +30,9 @@
 }
 
 .sidebar-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 1em;
 }
 
@@ -129,14 +133,156 @@ p-button.join-leave-button ::ng-deep button {
   }
 }
 
-.friend-request{
+.friend-request {
   flex-direction: column;
-  .requests-buttons{
+  .requests-buttons {
     // border: 1px solid red;
     display: flex;
-    gap:0.5em;
+    gap: 0.5em;
     justify-content: space-between;
   }
 }
 
+.create-group-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
 
+.create-group-form label {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.create-group-form input[type="text"] {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.friends-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.friend-item input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #3498db;
+  border-radius: 5px;
+}
+
+.friend-item label {
+  font-size: 1rem;
+}
+
+.p-button-create-group {
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  height: auto;
+  line-height: 1.2;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.p-button-create-group:hover {
+  background-color: #2980b9;
+}
+
+.p-button-create-group:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  border: 1px solid #ccc;
+}
+
+.group-create-btn {
+  border: none;
+  color: #ccc;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  height: auto;
+  line-height: 1.2;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.group-create-btn:hover {
+  color: #3498db;
+}
+
+.group-create-btn:disabled {
+  background-color: #ccc;
+  border: 1px solid #ccc;
+  cursor: not-allowed;
+}
+
+p-button.join-leave-button ::ng-deep button {
+  font-size: 0.75rem;
+  height: auto;
+  line-height: 1.2;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: none;
+  cursor: pointer;
+}
+
+p-button.join-leave-button ::ng-deep button:hover {
+  border: 1px solid #3498db;
+  background: #eaf2fc;
+}
+
+p-button.join-leave-button ::ng-deep button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Apply styles within the Angular component's shadow DOM */
+:host ::ng-deep .group-create-btn {
+  // border: 1px solid green;
+  width:1.5em;
+  height: auto;
+  padding: 0px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+:host ::ng-deep .group-create-btn:hover {
+  color: #3498db;
+}
+
+:host ::ng-deep .group-create-btn:disabled {
+  background-color: #e0e0e0;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+:host ::ng-deep .group-create-btn .pi {
+  font-size: 1.5em;
+  color: #ccc;
+}
+
+:host ::ng-deep .group-create-btn:hover .pi {
+  color: #3498db;
+}
