@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../auth/services/user.service';
-import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle.component';
 import { TabService } from '../../services/tab/tab.service';
 
 @Component({
