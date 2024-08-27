@@ -5,14 +5,14 @@ const { v4: uuidv4 } = require("uuid");
 
 // Register a new user
 const register = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, email } = req.body;
   try {
-    if (username === "" || password === "") {
+    if (username === "" || password === "" || email === "") {
       return res.status(401).json({
-        error: "Username and Password cannot be empty",
+        error: "Username and Password and email cannot be empty",
       });
     }
-    const user = new User({ username, password });
+    const user = new User({ username, password, email });
     await user.save();
 
     res

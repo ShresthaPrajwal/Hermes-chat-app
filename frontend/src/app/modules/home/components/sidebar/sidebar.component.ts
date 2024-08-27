@@ -15,8 +15,9 @@ export class SidebarComponent implements OnInit {
   public allChatRooms: any[] = [];
   public searchQuery: string = '';
   public selectedTab: string = '';
-  public allUsers: any[] =[];
-  public friends: any[]= [];
+  public allUsers: any[] = [];
+  public friends: any[] = [];
+  public friendRequests: string[] = [];
 
   constructor(
     private chatService: ChatService,
@@ -34,7 +35,7 @@ export class SidebarComponent implements OnInit {
     });
 
     this.friends = this.userService.getFriends();
-    console.log('Friends',this.friends)
+    console.log('Friends', this.friends)
 
     this.loadChatRooms();
   }
@@ -51,10 +52,14 @@ export class SidebarComponent implements OnInit {
       });
     }
 
-    if(this.selectedTab === 'peoples') {
-      this.usersService.getAllUsers().subscribe(users=>{
-      const currentUserId = this.userService.getUserId();
-        this.allUsers = users.filter(user=> !this.friends.includes(user.userId) && user.id!==currentUserId);
+    if (this.selectedTab === 'peoples') {
+      this.usersService.getAllUsers().subscribe(users => {
+        const currentUserId = this.userService.getUserId();
+        const friendRequestsIds = this.userService.getFriendRequests();
+        console.log(friendRequestsIds,users);
+        this.allUsers = users.filter(user => !this.friends.includes(user.userId) && user.id !== currentUserId);
+        this.friendRequests = users.filter(user=> friendRequestsIds.includes(user.userId));
+        console.log('friend requests',this.friendRequests)
       })
     }
   }
@@ -66,13 +71,13 @@ export class SidebarComponent implements OnInit {
 
   public joinGroup(room: any): void {
     this.chatService.addGroupMember(room.roomId, this.userService.getUserId()).subscribe(() => {
-      this.loadChatRooms(); 
+      this.loadChatRooms();
     });
   }
 
   public leaveGroup(room: any): void {
     this.chatService.removeGroupMember(room.roomId, this.userService.getUserId()).subscribe(() => {
-      this.loadChatRooms(); 
+      this.loadChatRooms();
     });
   }
 
@@ -80,7 +85,17 @@ export class SidebarComponent implements OnInit {
     return room.users.includes(this.userService.getUserId());
   }
 
-  public addFriend(user: any):void{
+  public addFriend(user: any): void {
+    this.userService.addFriendRequest(user.userId);
+  }
 
+  public acceptFriendRequest(userId: string): void {
+    this.userService.acceptFriendRequest(userId);
+    this.friendRequests = this.userService.getFriendRequests(); // Update the requests list
+  }
+
+  public declineFriendRequest(userId: string): void {
+    this.userService.declineFriendRequest(userId);
+    this.friendRequests = this.userService.getFriendRequests(); // Update the requests list
   }
 }

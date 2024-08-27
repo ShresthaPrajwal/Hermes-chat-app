@@ -50,7 +50,8 @@ export class LoginComponent implements OnInit {
             token: response.token,
             email: response.user.email,
             profilePicture: response.user.profilePicture,
-            friends: response.user.friends
+            friends: response.user.friends,
+            friendRequests: response.user.friendRequestsReceived
           });
           this.router.navigate(['/home/main']);
         }
