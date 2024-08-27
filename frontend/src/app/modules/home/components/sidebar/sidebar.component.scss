@@ -132,3 +132,42 @@ p-button.join-leave-button ::ng-deep button {
     border: 1px solid #3498db;
   }
 }
+
+.peoples-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  // border: 1px solid blue;
+
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+}
+
+p-button.join-leave-button ::ng-deep button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  height: auto;
+  line-height: 1.2;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+
+  &:hover {
+    border: 1px solid #3498db;
+  }
+}
+
+.peoples-pic-name{
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  align-items: center;
+  justify-content: start;
+}

@@ -48,9 +48,28 @@
         ></p-button>
       </div>
     </div>
-    <ng-container *ngIf="selectedTab === 'peoples'">
-      <p>Peoples content here</p>
-    </ng-container>
+    <div *ngIf="selectedTab === 'peoples'" class="sidebar-contents-overflow">
+      <div class="peoples-content" *ngFor="let user of allUsers">
+        <div class="peoples-pic-name">
+          <i *ngIf="!user.profilePicture" class="pi pi-user"></i>
+          <img
+            *ngIf="user.profilePicture"
+            [src]="user.profilePicture"
+            alt="Profile Picture"
+          />
+          <p>{{ user.username }}</p>
+        </div>
+        <p-button
+          class="join-leave-button"
+          [text]="true"
+          severity="secondary"
+          label="Add Friend"
+          icon="pi pi-user-plus"
+          (click)="addFriend(user.userId)"
+        >
+        </p-button>
+      </div>
+    </div>
     <ng-container *ngIf="selectedTab === 'requests'">
       <p>Requests content here</p>
     </ng-container>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +25,7 @@ export class UserService {
     const storedUsername = localStorage.getItem('username');
     const storedProfilePicture = localStorage.getItem('profilePicture');
     const storedEmail = localStorage.getItem('email');
+    const storedFriends = localStorage.getItem('frineds');
 
     if (storedUserId) {
       this.userIdSubject.next(storedUserId);
@@ -38,6 +39,9 @@ export class UserService {
     if (storedEmail) {
       this.emailSubject.next(storedEmail);
     }
+    if(storedFriends) {
+      this.friendsSubject.next(JSON.parse(storedFriends))
+    }
   }
 
   public setUserData(userData: {
@@ -46,17 +50,20 @@ export class UserService {
     token: string;
     profilePicture: string;
     email: string;
+    friends: string[];
   }): void {
     this.userIdSubject.next(userData.userId);
     this.usernameSubject.next(userData.username);
     this.profilePictureSubject.next(userData.profilePicture);
     this.emailSubject.next(userData.email);
+    this.friendsSubject.next(userData.friends);
 
     localStorage.setItem('userId', userData.userId);
     localStorage.setItem('username', userData.username);
     localStorage.setItem('token', userData.token);
     localStorage.setItem('profilePicture', userData.profilePicture);
     localStorage.setItem('email', userData.email);
+    localStorage.setItem('friends', JSON.stringify(userData.friends));
   }
 
   public getUserId(): string {
@@ -95,5 +102,6 @@ export class UserService {
     localStorage.removeItem('token');
     localStorage.removeItem('profilePicture');
     localStorage.removeItem('email');
+    localStorage.removeItem('friends');
   }
 }

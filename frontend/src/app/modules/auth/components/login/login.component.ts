@@ -49,7 +49,8 @@ export class LoginComponent implements OnInit {
             username: response.username,
             token: response.token,
             email: response.user.email,
-            profilePicture: response.user.profilePicture
+            profilePicture: response.user.profilePicture,
+            friends: response.user.friends
           });
           this.router.navigate(['/home/main']);
         }
