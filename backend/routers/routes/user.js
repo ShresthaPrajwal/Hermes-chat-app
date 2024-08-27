@@ -6,6 +6,8 @@ userRouter.get("/", (req, res) => {
   res.json({ message: "user" });
 });
 
+
+userRouter.get("/allusers",usersController.getAllUsers);
 userRouter.put(
   "/profile/:userId/profile-picture",
   upload.single("profilePicture"),
