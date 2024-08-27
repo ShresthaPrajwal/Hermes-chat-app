@@ -142,7 +142,7 @@ const getMessages = async (req, res) => {
     }
 
     const messages = await Message.find({ chatRoomId: chatRoom._id })
-      .populate("senderId", "username")
+      .populate("senderId")
       .sort("timestamp");
     res.json(messages);
   } catch (err) {
@@ -186,6 +186,29 @@ const getAllRooms = async (req, res) => {
   }
 };
 
+const getRoomInfo = async (req, res) => {
+  const { roomId } = req.params;
+
+  try {
+    if (!mongoose.Types.ObjectId.isValid(roomId)) {
+      return res.status(400).json({ message: "Invalid room ID format" });
+    }
+    const chatRoom = await ChatRoom.findOne({ _id: roomId })
+      .populate('users')
+      .exec();
+
+    if (!chatRoom) {
+      return res.status(404).json({ message: "Chat room not found" });
+    }
+
+    res.json(chatRoom);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
 module.exports = {
   createOrGetChatRoom,
   getMessages,
@@ -193,5 +216,6 @@ module.exports = {
   createGroupChat,
   addMembersToGroup,
   removeMemberFromGroup,
-  getAllRooms
+  getAllRooms,
+  getRoomInfo
 };

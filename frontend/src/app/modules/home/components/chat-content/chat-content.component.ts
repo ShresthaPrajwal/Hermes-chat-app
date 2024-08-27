@@ -13,6 +13,7 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   public currentMessage: string = '';
   public roomId: string = '';
   public userId: string = '';
+  public chatTitle: string = '';
 
   @ViewChild('chatMessagesContainer') private chatMessagesContainer !: ElementRef;
 
@@ -44,6 +45,12 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+  }
+
+  private updateChatTitle(): void {
+    // this.chatRoomService.getRoomDetails(this.roomId).subscribe(roomDetails=>{
+    //   this.chatTitle = roomDetails.name;
+    // })
   }
 
   public loadMessages(): void {

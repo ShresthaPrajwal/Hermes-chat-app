@@ -209,7 +209,6 @@ p-button.join-leave-button ::ng-deep button {
 
 .group-create-btn {
   border: none;
-  color: #ccc;
   padding: 0.5rem 1rem;
   font-size: 0.75rem;
   height: auto;
@@ -252,9 +251,7 @@ p-button.join-leave-button ::ng-deep button[disabled] {
   cursor: not-allowed;
 }
 
-/* Apply styles within the Angular component's shadow DOM */
 :host ::ng-deep .group-create-btn {
-  // border: 1px solid green;
   width:1.5em;
   height: auto;
   padding: 0px;
