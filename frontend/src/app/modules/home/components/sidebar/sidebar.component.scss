@@ -110,3 +110,8 @@ p-button.join-leave-button ::ng-deep button:hover {
   flex-wrap: wrap;
   justify-content: start;
 }
+
+p-button.join-leave-button ::ng-deep button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

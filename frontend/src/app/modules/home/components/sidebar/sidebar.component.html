@@ -63,12 +63,14 @@
           class="join-leave-button"
           [text]="true"
           severity="secondary"
-          icon="pi pi-user-plus"
-          (click)="addFriend(user.userId)"
+          icon="pi" [icon]="hasSentRequest(user.userId) ? 'pi pi-check' : 'pi pi-user-plus'"
+          (click)="addFriend(user)"
+          [disabled]="hasSentRequest(user.userId)"
         >
         </p-button>
       </div>
     </div>
+    
     <ng-container *ngIf="selectedTab === 'requests'">
       <div class="friend-request" *ngFor="let request of friendRequests">
         <div class="peoples-pic-name">

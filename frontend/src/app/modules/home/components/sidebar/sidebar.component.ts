@@ -4,6 +4,7 @@ import { ChatRoomService } from '../../services/chat/chat-room.service';
 import { UserService } from '../../../auth/services/user.service';
 import { TabService } from '../../services/tab/tab.service';
 import { UsersService } from '../../services/user/users.service';
+import { FriendService } from '../../services/friend/friend.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,24 +19,25 @@ export class SidebarComponent implements OnInit {
   public allUsers: any[] = [];
   public friends: any[] = [];
   public friendRequests: string[] = [];
+  public sentFriendRequests: string[] = []; 
 
   constructor(
     private chatService: ChatService,
     private chatRoomService: ChatRoomService,
     private userService: UserService,
     private tabService: TabService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private friendService: FriendService
   ) { }
 
   ngOnInit(): void {
-
     this.tabService.selectedTab$.subscribe(tab => {
       this.selectedTab = tab;
       this.loadChatRooms();
     });
 
     this.friends = this.userService.getFriends();
-    console.log('Friends', this.friends)
+    this.sentFriendRequests = this.userService.getFriendRequestsSent(); // Load sent friend requests
 
     this.loadChatRooms();
   }
@@ -56,11 +58,9 @@ export class SidebarComponent implements OnInit {
       this.usersService.getAllUsers().subscribe(users => {
         const currentUserId = this.userService.getUserId();
         const friendRequestsIds = this.userService.getFriendRequests();
-        console.log(friendRequestsIds,users);
-        this.allUsers = users.filter(user => !this.friends.includes(user.userId) && user.id !== currentUserId);
-        this.friendRequests = users.filter(user=> friendRequestsIds.includes(user.userId));
-        console.log('friend requests',this.friendRequests)
-      })
+        this.allUsers = users.filter(user => !this.friends.includes(user.userId) && user.userId !== currentUserId);
+        this.friendRequests = users.filter(user => friendRequestsIds.includes(user.userId));
+      });
     }
   }
 
@@ -86,16 +86,28 @@ export class SidebarComponent implements OnInit {
   }
 
   public addFriend(user: any): void {
-    this.userService.addFriendRequest(user.userId);
+    const senderId = this.userService.getUserId();
+    const receiverId = user.userId;
+
+    if (!this.userService.isFriendRequestSent(receiverId)) {
+      this.friendService.sendFriendRequest(senderId, receiverId).subscribe(() => {
+        this.userService.addFriendRequestSent(receiverId);
+        this.sentFriendRequests.push(receiverId);
+      });
+    }
   }
 
   public acceptFriendRequest(userId: string): void {
     this.userService.acceptFriendRequest(userId);
-    this.friendRequests = this.userService.getFriendRequests(); // Update the requests list
+    this.friendRequests = this.userService.getFriendRequests(); 
   }
 
   public declineFriendRequest(userId: string): void {
     this.userService.declineFriendRequest(userId);
-    this.friendRequests = this.userService.getFriendRequests(); // Update the requests list
+    this.friendRequests = this.userService.getFriendRequests(); 
+  }
+
+  public hasSentRequest(userId: string): boolean {
+    return this.userService.isFriendRequestSent(userId);
   }
 }

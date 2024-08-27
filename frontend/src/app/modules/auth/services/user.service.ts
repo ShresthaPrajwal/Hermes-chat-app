@@ -23,6 +23,9 @@ export class UserService {
   private friendRequestsSubject = new BehaviorSubject<string[] | null>(null);
   public friendRequests$ = this.friendRequestsSubject.asObservable();
 
+  private friendRequestsSentSubject = new BehaviorSubject<string[] | null>(null);
+  public friendRequestsSent$ = this.friendRequestsSentSubject.asObservable();
+
   constructor() {
     const storedUserId = localStorage.getItem('userId');
     const storedUsername = localStorage.getItem('username');
@@ -30,6 +33,7 @@ export class UserService {
     const storedEmail = localStorage.getItem('email');
     const storedFriends = localStorage.getItem('friends');
     const storedFriendRequests = localStorage.getItem('friendRequests');
+    const storedFriendRequestsSent = localStorage.getItem('friendRequestsSent');
 
     if (storedUserId) {
       this.userIdSubject.next(storedUserId);
@@ -43,13 +47,15 @@ export class UserService {
     if (storedEmail) {
       this.emailSubject.next(storedEmail);
     }
-    if(storedFriends) {
-      this.friendsSubject.next(storedFriends?JSON.parse(storedFriends):[]);
+    if (storedFriends) {
+      this.friendsSubject.next(JSON.parse(storedFriends));
     }
-    if(storedFriendRequests){
-      this.friendRequestsSubject.next(storedFriendRequests?JSON.parse(storedFriendRequests):[]);
+    if (storedFriendRequests) {
+      this.friendRequestsSubject.next(JSON.parse(storedFriendRequests));
     }
-    
+    if (storedFriendRequestsSent) {
+      this.friendRequestsSentSubject.next(JSON.parse(storedFriendRequestsSent));
+    }
   }
 
   public setUserData(userData: {
@@ -59,7 +65,8 @@ export class UserService {
     profilePicture: string;
     email: string;
     friends: string[];
-    friendRequests: string[]
+    friendRequests: string[];
+    friendRequestsSent: string[];
   }): void {
     this.userIdSubject.next(userData.userId);
     this.usernameSubject.next(userData.username);
@@ -67,6 +74,7 @@ export class UserService {
     this.emailSubject.next(userData.email);
     this.friendsSubject.next(userData.friends);
     this.friendRequestsSubject.next(userData.friendRequests);
+    this.friendRequestsSentSubject.next(userData.friendRequestsSent);
 
     localStorage.setItem('userId', userData.userId);
     localStorage.setItem('username', userData.username);
@@ -75,6 +83,7 @@ export class UserService {
     localStorage.setItem('email', userData.email);
     localStorage.setItem('friends', JSON.stringify(userData.friends));
     localStorage.setItem('friendRequests', JSON.stringify(userData.friendRequests));
+    localStorage.setItem('friendRequestsSent', JSON.stringify(userData.friendRequestsSent));
   }
 
   public getUserId(): string {
@@ -101,8 +110,18 @@ export class UserService {
     return localStorage.getItem('token') || '';
   }
 
-  public getFriendRequests(): string[]{
+  public getFriendRequests(): string[] {
     return this.friendRequestsSubject.value || [];
+  }
+
+  public getFriendRequestsSent(): string[] {
+    const storedFriendRequestsSent = localStorage.getItem('friendRequestsSent');
+    return storedFriendRequestsSent ? JSON.parse(storedFriendRequestsSent) : [];
+  }
+
+  public isFriendRequestSent(userId: string): boolean {
+    const sentRequests = this.getFriendRequestsSent();
+    return sentRequests.includes(userId);
   }
 
   public addFriendRequest(userId: string): void {
@@ -110,6 +129,22 @@ export class UserService {
     const updatedRequests = [...currentRequests, userId];
     this.friendRequestsSubject.next(updatedRequests);
     localStorage.setItem('friendRequests', JSON.stringify(updatedRequests));
+  }
+
+  public addFriendRequestSent(userId: string): void {
+    const currentSentRequests = this.getFriendRequestsSent();
+    if (!currentSentRequests.includes(userId)) {
+      const updatedSentRequests = [...currentSentRequests, userId];
+      this.friendRequestsSentSubject.next(updatedSentRequests);
+      localStorage.setItem('friendRequestsSent', JSON.stringify(updatedSentRequests));
+    }
+  }
+
+  public removeFriendRequestSent(userId: string): void {
+    const currentSentRequests = this.getFriendRequestsSent();
+    const updatedSentRequests = currentSentRequests.filter(id => id !== userId);
+    this.friendRequestsSentSubject.next(updatedSentRequests);
+    localStorage.setItem('friendRequestsSent', JSON.stringify(updatedSentRequests));
   }
 
   public removeFriendRequest(userId: string): void {
@@ -137,6 +172,7 @@ export class UserService {
     this.emailSubject.next(null);
     this.friendsSubject.next(null);
     this.friendRequestsSubject.next(null);
+    this.friendRequestsSentSubject.next(null);
 
     localStorage.removeItem('userId');
     localStorage.removeItem('username');
@@ -144,6 +180,7 @@ export class UserService {
     localStorage.removeItem('profilePicture');
     localStorage.removeItem('email');
     localStorage.removeItem('friends');
-    localStorage.removeItem('friendRequests')
+    localStorage.removeItem('friendRequests');
+    localStorage.removeItem('friendRequestsSent');
   }
 }
