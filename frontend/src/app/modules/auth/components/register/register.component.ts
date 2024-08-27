@@ -1,4 +1,3 @@
-// src/app/auth/register/register.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { AuthService } from '../../services/auth-services/auth.service';
@@ -17,6 +16,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]]
     }, { validators: this.passwordsMatchValidator });
@@ -34,8 +34,8 @@ export class RegisterComponent implements OnInit {
 
   public register(): void {
     if (this.registerForm.valid) {
-      const { username, password } = this.registerForm.value;
-      this.authService.registerUser(username, password).subscribe(response => {
+      const { username, email, password } = this.registerForm.value;
+      this.authService.registerUser(username, email, password).subscribe(response => {
         console.log('user registered', response)
         this.router.navigate(['/auth/login']);
       }, error => {

@@ -10,21 +10,22 @@ export class AuthService {
   private baseUrl: string = environment.baseUrl;
   constructor(private http: HttpClient) { }
 
-  public loginUser(userName: string, password: string): Observable<any>{
+  public loginUser(userName: string, password: string): Observable<any> {
     const url = `${this.baseUrl}/auth/login`;
     const body = {
       username: userName,
       password: password
-    }
-    return this.http.post(url,body);
+    };
+    return this.http.post(url, body);
   }
 
-  public registerUser(userName: string, password: string): Observable<any>{
+  public registerUser(username: string, email: string, password: string): Observable<any> {
     const url = `${this.baseUrl}/auth/register`;
     const body = {
-      username: userName,
-      password: password
-    }
-    return this.http.post(url,body);
+      username: username,
+      email: email,
+      password: password,
+    };
+    return this.http.post(url, body);
   }
 }

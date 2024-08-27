@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { CardModule } from 'primeng/card';
+import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RegisterComponent } from './components/register/register.component';
 import { LogoComponent } from '../../shared/components/logo/logo.component';
@@ -25,6 +26,7 @@ import { LogoComponent } from '../../shared/components/logo/logo.component';
     FormsModule,
     InputTextModule,
     PasswordModule,
+    DropdownModule,
     CardModule,
     CheckboxModule,
     LogoComponent
