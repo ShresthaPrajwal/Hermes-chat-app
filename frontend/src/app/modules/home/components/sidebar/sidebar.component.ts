@@ -50,6 +50,9 @@ export class SidebarComponent implements OnInit {
     if (this.selectedTab === 'chats') {
       this.chatService.getChatRooms(this.userService.getUserId()).subscribe((rooms) => {
         this.chatRooms = rooms;
+        if (this.chatRooms.length > 0) {
+          this.selectRoom(this.chatRooms[0]);
+        }
       });
     }
     if (this.selectedTab === 'groups') {
