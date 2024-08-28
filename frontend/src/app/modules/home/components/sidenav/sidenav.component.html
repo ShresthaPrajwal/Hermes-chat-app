@@ -31,7 +31,7 @@
           <i class="pi pi-user-plus"></i>
           <span class="tooltip">Requests</span>
         </li>
-        <li>
+        <li (click)="openEditProfileDialog()">
           <i class="pi pi-cog"></i>
           <span class="tooltip">Settings</span>
         </li>
@@ -62,5 +62,22 @@
   <p-footer>
     <button type="button" pButton label="Yes" icon="pi pi-check" (click)="logout()"></button>
     <button type="button" pButton label="No" icon="pi pi-times" (click)="displayLogoutDialog = false"></button>
+  </p-footer>
+</p-dialog>
+
+<!-- Edit Profile Dialog -->
+<p-dialog
+  header="Edit Profile"
+  [(visible)]="displayEditProfileDialog"
+  [modal]="true"
+  [closable]="false"
+>
+  <div class="edit-profile-content">
+    <p>Update your profile picture</p>
+    <input type="file" (change)="onProfilePictureSelected($event)" />
+  </div>
+  <p-footer>
+    <button type="button" pButton label="Save" icon="pi pi-check" (click)="updateProfilePicture()"></button>
+    <button type="button" pButton label="Cancel" icon="pi pi-times" (click)="displayEditProfileDialog = false"></button>
   </p-footer>
 </p-dialog>

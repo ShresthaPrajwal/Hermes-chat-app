@@ -16,4 +16,11 @@ export class UsersService {
   public getAllUsers(): Observable<any[]>{
     return this.http.get<any[]>(`${this.baseUrl}/user/allusers`);
   }
+
+  public updateProfilePicture(userId: string, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('profilePicture', file);
+
+    return this.http.put<any>(`${this.baseUrl}/user/profile/${userId}/profile-picture`, formData);
+  }
 }
