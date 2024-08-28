@@ -15,6 +15,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 import { LogoComponent } from '../../shared/components/logo/logo.component';
 import { MenuModule } from 'primeng/menu';
+import { CardModule } from 'primeng/card';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -33,6 +34,7 @@ import { MenuModule } from 'primeng/menu';
     MenuModule,
     DialogModule,
     MultiSelectModule,
+    CardModule,
     ThemeToggleComponent,
     LogoComponent
   ],
