@@ -15,6 +15,13 @@
     height: 100vh;
     gap: 0.5em;
   }
+
+  @media (min-width: 768px) and (max-width: 1100px) {
+    flex-direction: row;
+    justify-content: flex-start;
+    height: 98vh;
+    gap: 1em;
+  }
 }
 
 app-sidenav {
@@ -38,6 +45,11 @@ app-sidenav {
       display: none;
     }
   }
+
+  @media (min-width: 768px) and (max-width: 1100px) {
+    width: 15%; // Adjust width for tablets
+    height: 98vh;
+  }
 }
 
 app-sidebar {
@@ -56,6 +68,9 @@ app-sidebar {
       display: none;
     }
   }
+  @media (min-width: 768px) and (max-width: 1100px) {
+    width: 25vw; // Adjust width for tablets
+  }
 }
 
 app-chat-content {
@@ -66,6 +81,9 @@ app-chat-content {
     order: 3;
     display: none;
     height: 98vh;
+  }
+  @media (min-width: 768px) and (max-width: 1100px) {
+    width: 55vw; // Adjust width for tablets
   }
 
   &.active {
