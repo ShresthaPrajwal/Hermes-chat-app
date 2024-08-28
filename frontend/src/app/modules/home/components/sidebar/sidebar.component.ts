@@ -180,4 +180,32 @@ export class SidebarComponent implements OnInit {
   public hasSentRequest(userId: string): boolean {
     return this.userService.isFriendRequestSent(userId);
   }
+
+  // Filter chat rooms based on the search query
+  public getFilteredChatRooms(): any[] {
+    return this.chatRooms.filter(room =>
+      room.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+  }
+
+  // Filter all chat rooms based on the search query
+  public getFilteredAllChatRooms(): any[] {
+    return this.allChatRooms.filter(room =>
+      room.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+  }
+
+  // Filter all users based on the search query
+  public getFilteredAllUsers(): any[] {
+    return this.allUsers.filter(user =>
+      user.username.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+  }
+
+  // Filter friend requests based on the search query
+  public getFilteredFriendRequests(): any[] {
+    return this.friendRequests.filter(request =>
+      request.sender.username.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+  }
 }

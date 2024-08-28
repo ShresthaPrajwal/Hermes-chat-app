@@ -11,19 +11,19 @@
       <input pInputText type="text" [(ngModel)]="groupName" placeholder="Enter group name" />
   
       <label for="friends">Select Friends</label>
-  <div id="friends" class="friends-list">
-    <div *ngFor="let friend of friends" class="friend-item">
-      <input
-        type="checkbox"
-        [value]="friend.userId"
-        (change)="onFriendSelection($event, friend)"
-        id="{{ friend.userId }}"
-      />
-      <label for="{{ friend.userId }}">
-        <span>{{ friend.username }}</span>
-      </label>
-    </div>
-  </div>
+      <div id="friends" class="friends-list">
+        <div *ngFor="let friend of friends" class="friend-item">
+          <input
+            type="checkbox"
+            [value]="friend.userId"
+            (change)="onFriendSelection($event, friend)"
+            id="{{ friend.userId }}"
+          />
+          <label for="{{ friend.userId }}">
+            <span>{{ friend.username }}</span>
+          </label>
+        </div>
+      </div>
   
       <p-button label="Create Group" (click)="createGroup()" [disabled]="!groupName || selectedFriends.length === 0"></p-button>
     </div>
@@ -40,7 +40,7 @@
     <div *ngIf="selectedTab === 'chats'" class="sidebar-contents-overflow">
       <div
         class="sidebar-individual-content-chats"
-        *ngFor="let chat of chatRooms"
+        *ngFor="let chat of getFilteredChatRooms()"
         (click)="selectRoom(chat)"
       >
         <i class="pi pi-user"></i>
@@ -50,7 +50,7 @@
     <div *ngIf="selectedTab === 'groups'" class="sidebar-contents-overflow">
       <div
         class="sidebar-individual-content"
-        *ngFor="let group of allChatRooms"
+        *ngFor="let group of getFilteredAllChatRooms()"
       >
         <div class="pic-name">
           <i class="pi pi-users"></i>
@@ -75,7 +75,7 @@
       </div>
     </div>
     <div *ngIf="selectedTab === 'peoples'" class="sidebar-contents-overflow">
-      <div class="peoples-content" *ngFor="let user of allUsers">
+      <div class="peoples-content" *ngFor="let user of getFilteredAllUsers()">
         <div class="peoples-pic-name">
           <i *ngIf="!user.profilePicture" class="pi pi-user"></i>
           <img
@@ -98,31 +98,29 @@
     </div>
     
     <ng-container *ngIf="selectedTab === 'requests'">
-  <div class="friend-request" *ngFor="let request of friendRequests">
-    <div class="peoples-pic-name">
-      <i *ngIf="!request.sender.profilePicture" class="pi pi-user"></i>
-      <img *ngIf="request.sender.profilePicture" [src]="request.sender.profilePicture" alt="Profile Picture" />
-      <p>{{ request.sender.username }}</p>
-    </div>
-    <div class="requests-buttons">
-      <p-button
-        label="Accept"
-        [text]="true"
-        severity="success"
-        (click)="acceptFriendRequest(request._id)"
-        class="join-leave-button"
-      ></p-button>
-      <p-button
-        label="Decline"
-        [text]="true"
-        severity="danger"
-        (click)="declineFriendRequest(request._id)"
-        class="join-leave-button"
-      ></p-button>
-    </div>
-  </div>
-</ng-container>
-
-    
+      <div class="friend-request" *ngFor="let request of getFilteredFriendRequests()">
+        <div class="peoples-pic-name">
+          <i *ngIf="!request.sender.profilePicture" class="pi pi-user"></i>
+          <img *ngIf="request.sender.profilePicture" [src]="request.sender.profilePicture" alt="Profile Picture" />
+          <p>{{ request.sender.username }}</p>
+        </div>
+        <div class="requests-buttons">
+          <p-button
+            label="Accept"
+            [text]="true"
+            severity="success"
+            (click)="acceptFriendRequest(request._id)"
+            class="join-leave-button"
+          ></p-button>
+          <p-button
+            label="Decline"
+            [text]="true"
+            severity="danger"
+            (click)="declineFriendRequest(request._id)"
+            class="join-leave-button"
+          ></p-button>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>
