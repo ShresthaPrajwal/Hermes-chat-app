@@ -32,11 +32,11 @@ export class ChatService {
     return this.socket.fromEvent('rooms');
   }
 
-  public getMessages(roomId: string): Observable<any>{
+  public getMessages(roomId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/chat/messages/${roomId}`)
   }
 
-  public getAllChatRooms(): Observable<any[]>{
+  public getAllChatRooms(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/chat/allrooms`);
   }
 
@@ -48,12 +48,25 @@ export class ChatService {
     return this.http.post<any>(`${this.baseUrl}/chat/removegroupmember/${roomId}`, { userId });
   }
 
-  public createGroup(name: string, userIds: string[]): Observable<any>{
-    return this.http.post(`${this.baseUrl}/chat/creategroup`,{name,userIds});
+  public createGroup(name: string, userIds: string[]): Observable<any> {
+    return this.http.post(`${this.baseUrl}/chat/creategroup`, { name, userIds });
   }
 
-  public getRoomInfo(roomId: string): Observable<any>{
+  public getRoomInfo(roomId: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/chat/getroominfo/${roomId}`);
+  }
+
+  public sendImage(roomId: string, userId: string, image: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('chatRoomId', roomId);
+    formData.append('senderId', userId);
+
+    return this.http.post(`${this.baseUrl}/chat/sendmessagewithimage`, formData);
+  }
+
+  public sendImageNotification(roomId: string, imageUrlmessageId: string, userId: string): void {
+    this.socket.emit('chat message', { roomId, imageUrlmessageId, userId });
   }
 }
 

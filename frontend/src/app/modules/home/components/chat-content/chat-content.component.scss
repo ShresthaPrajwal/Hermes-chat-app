@@ -146,21 +146,28 @@ p-button {
   color: #888;
 }
 
+.message-image {
+  max-width: 100%;
+  border-radius: 10px;
+  margin-top: 5px;
+}
+
 .current-user .message-header {
   display: none;
 }
+
 .message-date-header {
   text-align: center;
   color: #666;
   font-weight: bold;
   margin: 10px 0;
 }
+
 .chat-input-container {
   height: 10%;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  // border: 1px solid red;
   gap: 0.5em;
 
   .send-icon {
@@ -173,12 +180,8 @@ p-button {
     cursor: pointer;
 
     &:hover {
-      color: #3498db; 
-      background-color: #f0f0f0; 
+      color: #3498db;
+      background-color: #f0f0f0;
     }
   }
 }
-
-// * {
-//   // border: 1px solid red;
-// }

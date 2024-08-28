@@ -30,7 +30,16 @@
             }}</span>
           </div>
           <div class="message-content-inner">
-            <div class="message-text">{{ message.content }}</div>
+            <div *ngIf="message.imageUrl; else textMessage">
+              <img
+                [src]="message.imageUrl"
+                alt="Sent Image"
+                class="message-image"
+              />
+            </div>
+            <ng-template #textMessage>
+              <div class="message-text">{{ message.content }}</div>
+            </ng-template>
             <div class="message-timestamp">
               {{ message.timestamp | date : "shortTime" }}
             </div>
@@ -47,6 +56,12 @@
       type="text"
       placeholder="Send Messages..."
     />
+    <input
+      type="file"
+      #imageInput
+      (change)="onImageSelected(imageInput.files)"
+    />
+    <button (click)="sendImage()">Send Image</button>
     <i class="pi pi-send send-icon" (click)="sendMessage()"></i>
   </div>
 </div>

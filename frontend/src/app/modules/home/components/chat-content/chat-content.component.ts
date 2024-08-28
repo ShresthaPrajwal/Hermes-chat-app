@@ -16,6 +16,7 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   public chatTitle: string = '';
   public users: any[] = [];
   public groupedMessages: any = {};
+  public selectedImage: File | null = null;
 
   public showBackButton: boolean = false;
 
@@ -77,6 +78,7 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   public loadMessages(): void {
     if (this.roomId) {
       this.chatService.getMessages(this.roomId).subscribe((messages: any[]) => {
+        console.log('messages', messages)
         this.messages = messages
           .filter(msg => msg.senderId !== null)
           .map(msg => {
@@ -122,7 +124,7 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
       const chatContentElement = document.querySelector('app-chat-content');
       const chatsidenav = document.querySelector('app-sidenav');
       const chatsidebar = document.querySelector('app-sidebar');
-      console.log(chatContentElement,chatsidebar,chatsidebar)
+      console.log(chatContentElement, chatsidebar, chatsidebar)
       if (chatContentElement) {
         chatContentElement.classList.replace('active', 'inactive');
       }
@@ -132,10 +134,31 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
       if (chatsidenav) {
         chatsidenav.classList.replace('inactive', 'active');
       }
-      
+
     }
   }
 
+  public onImageSelected(files: FileList | null): void {
+    if (files && files.length > 0) {
+      this.selectedImage = files.item(0);
+    } else {
+      this.selectedImage = null;
+    }
+  }
+
+  public sendImage(): void {
+    console.log('roomid<roomobj id', this.roomId, this.roomObjectId);
+    if (this.selectedImage) {
+      this.chatService.sendImage(this.roomObjectId, this.userId, this.selectedImage).subscribe(response => {
+        console.log('response while sending image ',response)
+        if (response && response.message._id) {
+          this.chatService.sendImageNotification(this.roomId, response.message._id, this.userId);
+        }
+      });
+
+      this.selectedImage = null;
+    }
+  }
   private scrollToBottom(): void {
     setTimeout(() => {
       const container = this.chatMessagesContainer.nativeElement;
