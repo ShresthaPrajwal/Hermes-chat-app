@@ -52,6 +52,15 @@
       </ng-template>
       <p>{{ username }}</p>
     </div>
+    <button class="logout-button pi pi-sign-out" (click)="confirmLogout()"></button>
     <app-theme-toggle></app-theme-toggle>
   </div>
 </div>
+
+<p-dialog header="Confirm Logout" [(visible)]="displayLogoutDialog" [modal]="true" [closable]="false">
+  <p>Are you sure you want to logout?</p>
+  <p-footer>
+    <button type="button" pButton label="Yes" icon="pi pi-check" (click)="logout()"></button>
+    <button type="button" pButton label="No" icon="pi pi-times" (click)="displayLogoutDialog = false"></button>
+  </p-footer>
+</p-dialog>
