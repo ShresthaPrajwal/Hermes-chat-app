@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { ButtonModule } from 'primeng/button';
 import { ThemeToggleComponent } from './shared/components/theme-toggle/theme-toggle.component';
 import { HttpClientModule } from '@angular/common/http';
-import {StyleClassModule} from 'primeng/styleclass';
+import { StyleClassModule } from 'primeng/styleclass';
+import { CardModule } from 'primeng/card';
 import { SocketIoModule } from 'ngx-socket-io';
 import { socketConfig } from '../../environments/socket-config';
-import { LogoComponent } from './shared/components/logo/logo.component';
+import { NotFoundComponent } from './shared/pages/not-found/not-found.component';
 @NgModule({
   declarations: [
     AppComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,6 +25,7 @@ import { LogoComponent } from './shared/components/logo/logo.component';
     NoopAnimationsModule,
     HttpClientModule,
     StyleClassModule,
+    CardModule,
     SocketIoModule.forRoot(socketConfig)
   ],
   providers: [],
