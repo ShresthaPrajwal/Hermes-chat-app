@@ -19,7 +19,7 @@ export class SidebarComponent implements OnInit {
   public allUsers: any[] = [];
   public friends: any[] = [];
   public friendRequests: any[] = [];
-  public sentFriendRequests: string[] = []; 
+  public sentFriendRequests: string[] = [];
 
   public groupModalVisible: boolean = false;
   public groupName: string = '';
@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit {
     });
 
     this.friends = this.userService.getFriends();
-    console.log('firends',this.friends);
+    console.log('firends', this.friends);
     this.sentFriendRequests = this.userService.getFriendRequestsSent();
     this.loadChatRooms();
   }
@@ -67,9 +67,9 @@ export class SidebarComponent implements OnInit {
       });
     }
 
-    if(this.selectedTab === 'requests') {
+    if (this.selectedTab === 'requests') {
       this.friendService.fetchFriendRequests(this.userService.getUserId()).subscribe(
-        requests=>{
+        requests => {
           this.friendRequests = requests.friendRequests;
         }
       )
@@ -77,17 +77,18 @@ export class SidebarComponent implements OnInit {
   }
 
   public selectRoom(room: any): void {
-    console.log('selecr',room)
-    this.chatRoomService.setRoomId(room._id);
+    console.log('selecr', room)
+    this.chatRoomService.setRoomId(room.roomId);
+    this.chatRoomService.setRoomObjectId(room._id);
     this.chatService.joinRoom(room.roomId, this.userService.getUserId());
   }
 
-  public openGroupCreationModal(){
+  public openGroupCreationModal(): void {
     this.groupModalVisible = true;
   }
   public onFriendSelection(event: any, friend: any): void {
     if (event.target.checked) {
-      this.selectedFriends.push(friend);  // Add the friend to the selection if checked
+      this.selectedFriends.push(friend);
     } else {
       this.selectedFriends = this.selectedFriends.filter(f => f.userId !== friend.userId);  // Remove if unchecked
     }
@@ -95,15 +96,14 @@ export class SidebarComponent implements OnInit {
   public createGroup(): void {
     const selectedFriendIds = this.selectedFriends.map(friend => friend.userId);
     const userId = this.userService.getUserId();
-    
-    // Include current user in the group
+
     selectedFriendIds.push(userId);
 
     this.chatService.createGroup(this.groupName, selectedFriendIds).subscribe(() => {
       this.groupModalVisible = false;
       this.groupName = '';
       this.selectedFriends = [];
-      this.loadChatRooms(); // Refresh the chat rooms to include the new group
+      this.loadChatRooms();
     });
   }
 
@@ -137,7 +137,7 @@ export class SidebarComponent implements OnInit {
 
   public acceptFriendRequest(requestId: string): void {
     this.friendService.acceptFriendRequest(requestId).subscribe((acceptResponse) => {
-      console.log('response of accp',acceptResponse.id)
+      console.log('response of accp', acceptResponse.id)
 
       this.userService.acceptFriendRequest(acceptResponse.sender.id);
     });
@@ -145,7 +145,7 @@ export class SidebarComponent implements OnInit {
 
   public declineFriendRequest(requestId: string): void {
     this.friendService.rejectFriendRequest(requestId).subscribe((rejectResponse) => {
-      console.log('response of rej',rejectResponse.id)
+      console.log('response of rej', rejectResponse.id)
       this.userService.declineFriendRequest(rejectResponse.sender.id);
     });
   }

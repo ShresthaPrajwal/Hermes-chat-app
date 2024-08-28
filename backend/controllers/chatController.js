@@ -136,7 +136,7 @@ const removeMemberFromGroup = async (req, res) => {
 const getMessages = async (req, res) => {
   const { roomId } = req.params;
   try {
-    const chatRoom = await ChatRoom.findOne({ _id: roomId });
+    const chatRoom = await ChatRoom.findOne({ roomId });
     if (!chatRoom) {
       return res.status(404).json({ message: "Chat room not found" });
     }

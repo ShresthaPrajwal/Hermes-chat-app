@@ -12,6 +12,7 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   public messages: any[] = [];
   public currentMessage: string = '';
   public roomId: string = '';
+  public roomObjectId: string = '';
   public userId: string = '';
   public chatTitle: string = '';
   public users: any[] = [];
@@ -28,14 +29,22 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
     this.chatRoomService.roomId$.subscribe(roomId => {
       this.userId = this.userService.getUserId();
       this.roomId = roomId;
+      console.log('Current room Id',this.roomId )
       if (this.roomId) {
         this.loadMessages();
       }
+    })
+
+    this.chatRoomService.roomObjectId$.subscribe(roomObjectId=>{
+      this.roomObjectId = roomObjectId;
       this.updateRoomInfo();
+      console.log('Current room Object Id', this.roomObjectId)
     })
 
     this.chatService.receiveMessage().subscribe((message) => {
+      console.log('message aira cha',message)
       this.messages.push(message);
+      this.loadMessages();
     })
 
     this.chatService.getRoomInfo(this.roomId).subscribe((roomInfo)=>{
@@ -56,7 +65,7 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   private updateRoomInfo(): void {
-    this.chatService.getRoomInfo(this.roomId).subscribe((roomInfo)=>{
+    this.chatService.getRoomInfo(this.roomObjectId).subscribe((roomInfo)=>{
       this.chatTitle = roomInfo.name;
       this.users = roomInfo.users;
     })
@@ -64,6 +73,7 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
 
   public loadMessages(): void {
     if (this.roomId) {
+      console.log('roomid',this.roomId)
       this.chatService.getMessages(this.roomId).subscribe((messages: any[]) => {
         console.log('here are messages', messages)
         this.messages = messages
