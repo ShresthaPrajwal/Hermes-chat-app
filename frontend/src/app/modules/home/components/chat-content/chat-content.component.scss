@@ -162,7 +162,6 @@ p-button {
   font-weight: bold;
   margin: 10px 0;
 }
-
 .chat-input-container {
   height: 10%;
   display: flex;
@@ -182,6 +181,21 @@ p-button {
     &:hover {
       color: #3498db;
       background-color: #f0f0f0;
+    }
+  }
+
+  .clip-icon {
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #3498db;
+    }
+
+    &.file-selected {
+      color: red;
     }
   }
 }

@@ -60,8 +60,18 @@
       type="file"
       #imageInput
       (change)="onImageSelected(imageInput.files)"
+      hidden
+      id="imageUpload"
     />
-    <button (click)="sendImage()">Send Image</button>
-    <i class="pi pi-send send-icon" (click)="sendMessage()"></i>
+    <label for="imageUpload">
+      <i
+        class="pi pi-paperclip clip-icon"
+        [ngClass]="{ 'file-selected': selectedImage }"
+      ></i>
+    </label>
+    <i
+      class="pi pi-send send-icon"
+      (click)="selectedImage ? sendImage() : sendMessage()"
+    ></i>
   </div>
 </div>
