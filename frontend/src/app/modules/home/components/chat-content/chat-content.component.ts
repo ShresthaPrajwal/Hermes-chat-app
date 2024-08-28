@@ -15,40 +15,43 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   public userId: string = '';
   public chatTitle: string = '';
   public users: any[] = [];
-  public groupedMessages: any ={};
+  public groupedMessages: any = {};
+
+  public showBackButton: boolean = false;
 
   @ViewChild('chatMessagesContainer') private chatMessagesContainer !: ElementRef;
 
   constructor(
     private chatService: ChatService,
     private chatRoomService: ChatRoomService,
-    private userService: UserService
+    private userService: UserService,
   ) { }
 
   ngOnInit(): void {
     this.chatRoomService.roomId$.subscribe(roomId => {
       this.userId = this.userService.getUserId();
       this.roomId = roomId;
-      console.log('Current room Id',this.roomId )
+      console.log('Current room Id', this.roomId)
       if (this.roomId) {
         this.loadMessages();
+        this.showBackButton = window.innerWidth <= 768;
       }
     })
 
-    this.chatRoomService.roomObjectId$.subscribe(roomObjectId=>{
+    this.chatRoomService.roomObjectId$.subscribe(roomObjectId => {
       this.roomObjectId = roomObjectId;
       this.updateRoomInfo();
       console.log('Current room Object Id', this.roomObjectId)
     })
 
     this.chatService.receiveMessage().subscribe((message) => {
-      console.log('message aira cha',message)
+      console.log('message aira cha', message)
       this.messages.push(message);
       this.loadMessages();
     })
 
-    this.chatService.getRoomInfo(this.roomId).subscribe((roomInfo)=>{
-      console.log('roominfo',roomInfo)
+    this.chatService.getRoomInfo(this.roomId).subscribe((roomInfo) => {
+      console.log('roominfo', roomInfo)
       this.chatTitle = roomInfo.name;
       this.users = roomInfo.users;
     })
@@ -65,7 +68,7 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   private updateRoomInfo(): void {
-    this.chatService.getRoomInfo(this.roomObjectId).subscribe((roomInfo)=>{
+    this.chatService.getRoomInfo(this.roomObjectId).subscribe((roomInfo) => {
       this.chatTitle = roomInfo.name;
       this.users = roomInfo.users;
     })
@@ -83,7 +86,7 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
             };
           });
 
-          this.groupedMessages = this.groupMessagesByDate(this.messages);
+        this.groupedMessages = this.groupMessagesByDate(this.messages);
         this.scrollToBottom();
       });
     }
@@ -110,6 +113,26 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
       this.chatService.sendMessage(this.roomId, this.currentMessage, this.userId);
       this.currentMessage = '';
       this.scrollToBottom();
+    }
+  }
+
+  public goBack(): void {
+    console.log('gack')
+    if (window.innerWidth <= 768) {
+      const chatContentElement = document.querySelector('app-chat-content');
+      const chatsidenav = document.querySelector('app-sidenav');
+      const chatsidebar = document.querySelector('app-sidebar');
+      console.log(chatContentElement,chatsidebar,chatsidebar)
+      if (chatContentElement) {
+        chatContentElement.classList.replace('active', 'inactive');
+      }
+      if (chatsidebar) {
+        chatsidebar.classList.replace('inactive', 'active');
+      }
+      if (chatsidenav) {
+        chatsidenav.classList.replace('inactive', 'active');
+      }
+      
     }
   }
 

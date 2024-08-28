@@ -1,5 +1,8 @@
 <div class="chat-content">
   <div class="chat-content-navbar">
+    <div *ngIf="showBackButton" class="back-button">
+      <i class="pi pi-angle-left" (click)="goBack()"></i>
+    </div>
     <h2>{{ chatTitle }}</h2>
   </div>
   <div class="chat-messages" #chatMessagesContainer>

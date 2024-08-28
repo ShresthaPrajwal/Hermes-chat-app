@@ -43,6 +43,17 @@ export class SidebarComponent implements OnInit {
     this.friends = this.userService.getFriends();
     console.log('firends', this.friends);
     this.sentFriendRequests = this.userService.getFriendRequestsSent();
+    if (this.selectedTab === 'chats') {
+      this.chatService.getChatRooms(this.userService.getUserId()).subscribe((rooms) => {
+        this.chatRooms = rooms;
+        if (!(window.innerWidth <= 768)) {
+          if (this.chatRooms.length > 0) {
+            this.selectRoom(this.chatRooms[0]);
+          }
+        }
+
+      });
+    }
     this.loadChatRooms();
   }
 
@@ -50,9 +61,6 @@ export class SidebarComponent implements OnInit {
     if (this.selectedTab === 'chats') {
       this.chatService.getChatRooms(this.userService.getUserId()).subscribe((rooms) => {
         this.chatRooms = rooms;
-        if (this.chatRooms.length > 0) {
-          this.selectRoom(this.chatRooms[0]);
-        }
       });
     }
     if (this.selectedTab === 'groups') {
@@ -84,6 +92,22 @@ export class SidebarComponent implements OnInit {
     this.chatRoomService.setRoomId(room.roomId);
     this.chatRoomService.setRoomObjectId(room._id);
     this.chatService.joinRoom(room.roomId, this.userService.getUserId());
+
+    if (window.innerWidth <= 768) {
+      const chatContentElement = document.querySelector('app-chat-content');
+      const chatsidenav = document.querySelector('app-sidenav');
+      const chatsidebar = document.querySelector('app-sidebar');
+
+      if (chatContentElement) {
+        chatContentElement.classList.add('active');
+      }
+      if (chatsidebar) {
+        chatsidebar.classList.add('inactive');
+      }
+      if (chatsidenav) {
+        chatsidenav.classList.add('inactive');
+      }
+    }
   }
 
   public openGroupCreationModal(): void {
