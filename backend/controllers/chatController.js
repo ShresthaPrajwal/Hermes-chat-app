@@ -2,6 +2,7 @@ const ChatRoom = require("../models/chatRoom");
 const Message = require("../models/message");
 const User = require("../models/user");
 const mongoose = require("mongoose");
+const { uploadPhotoToFirebase } = require("../utils/firebaseUtils");
 
 const createOrGetChatRoom = async (req, res) => {
   const { userId1, userId2 } = req.body;
@@ -123,10 +124,16 @@ const removeMemberFromGroup = async (req, res) => {
       return res.status(404).json({ message: "Group chat not found" });
     }
 
-    chatRoom.users = chatRoom.users.filter(id => id.toString() !== userId.toString());
+    chatRoom.users = chatRoom.users.filter(
+      (id) => id.toString() !== userId.toString()
+    );
     await chatRoom.save();
 
-    res.json({ message: "Member removed successfully", roomId: chatRoom.roomId ,chatRoom});
+    res.json({
+      message: "Member removed successfully",
+      roomId: chatRoom.roomId,
+      chatRoom,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
@@ -194,7 +201,7 @@ const getRoomInfo = async (req, res) => {
       return res.status(400).json({ message: "Invalid room ID format" });
     }
     const chatRoom = await ChatRoom.findOne({ _id: roomId })
-      .populate('users')
+      .populate("users")
       .exec();
 
     if (!chatRoom) {
@@ -208,6 +215,38 @@ const getRoomInfo = async (req, res) => {
   }
 };
 
+const sendMessageWithImage = async (req, res) => {
+  const { chatRoomId, senderId } = req.body;
+  console.log(chatRoomId, senderId, req.file);
+  try {
+    if (
+      !mongoose.Types.ObjectId.isValid(chatRoomId) ||
+      !mongoose.Types.ObjectId.isValid(senderId)
+    ) {
+      return res.status(400).json({ message: "Invalid ID format" });
+    }
+
+    const file = req.file;
+    let imageUrl = "";
+
+    if (file) {
+      imageUrl = await uploadPhotoToFirebase(file);
+    }
+
+    const message = new Message({
+      chatRoomId,
+      senderId,
+      imageUrl,
+    });
+
+    await message.save();
+
+    res.status(201).json({ message });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
 module.exports = {
   createOrGetChatRoom,
@@ -217,5 +256,6 @@ module.exports = {
   addMembersToGroup,
   removeMemberFromGroup,
   getAllRooms,
-  getRoomInfo
+  getRoomInfo,
+  sendMessageWithImage,
 };
