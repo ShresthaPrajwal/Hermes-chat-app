@@ -112,7 +112,7 @@ p-button {
 .message-username {
   font-weight: bold;
   font-size: 0.9rem;
-  color: #333;
+  color: #666;
 }
 
 .message-content {
@@ -130,6 +130,12 @@ p-button {
   color: #888;
 }
 
-.current-user .message-header{
+.current-user .message-header {
   display: none;
+}
+.message-date-header {
+  text-align: center;
+  color: #666;
+  font-weight: bold;
+  margin: 10px 0;
 }

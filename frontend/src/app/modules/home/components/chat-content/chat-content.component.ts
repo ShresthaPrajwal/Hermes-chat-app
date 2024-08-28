@@ -2,7 +2,6 @@ import { Component, OnInit, OnChanges, SimpleChange, SimpleChanges, ViewChild, E
 import { ChatService } from '../../services/chat/chat.service';
 import { ChatRoomService } from '../../services/chat/chat-room.service';
 import { UserService } from '../../../auth/services/user.service';
-
 @Component({
   selector: 'app-chat-content',
   templateUrl: './chat-content.component.html',
@@ -16,6 +15,7 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   public userId: string = '';
   public chatTitle: string = '';
   public users: any[] = [];
+  public groupedMessages: any ={};
 
   @ViewChild('chatMessagesContainer') private chatMessagesContainer !: ElementRef;
 
@@ -73,15 +73,36 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
 
   public loadMessages(): void {
     if (this.roomId) {
-      console.log('roomid',this.roomId)
       this.chatService.getMessages(this.roomId).subscribe((messages: any[]) => {
-        console.log('here are messages', messages)
         this.messages = messages
           .filter(msg => msg.senderId !== null)
-          .map(msg => msg);
+          .map(msg => {
+            return {
+              ...msg,
+              date: new Date(msg.timestamp).toDateString(), // Extract the date
+            };
+          });
+
+          this.groupedMessages = this.groupMessagesByDate(this.messages);
         this.scrollToBottom();
       });
     }
+  }
+
+  private groupMessagesByDate(messages: any[]): { date: string, messages: any[] }[] {
+    const grouped = messages.reduce((acc, message) => {
+      const date = message.date;
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(message);
+      return acc;
+    }, {} as { [key: string]: any[] });
+
+    return Object.keys(grouped).map(date => ({
+      date,
+      messages: grouped[date],
+    }));
   }
 
   public sendMessage(): void {
