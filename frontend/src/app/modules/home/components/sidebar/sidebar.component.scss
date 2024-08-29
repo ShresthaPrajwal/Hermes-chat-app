@@ -283,3 +283,13 @@ p-button.join-leave-button ::ng-deep button[disabled] {
 :host ::ng-deep .group-create-btn:hover .pi {
   color: #3498db;
 }
+
+.no-groups-message {
+  text-align: center;
+  color: #3498db; 
+}
+
+.no-requests-message {
+  text-align: center;
+  color: #e74c3c;
+}
