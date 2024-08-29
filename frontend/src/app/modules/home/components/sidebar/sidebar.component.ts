@@ -41,7 +41,6 @@ export class SidebarComponent implements OnInit {
     });
 
     this.friends = this.userService.getFriends();
-    console.log('firends', this.friends);
     this.sentFriendRequests = this.userService.getFriendRequestsSent();
     if (this.selectedTab === 'chats') {
       this.chatService.getChatRooms(this.userService.getUserId()).subscribe((rooms) => {
@@ -88,7 +87,6 @@ export class SidebarComponent implements OnInit {
   }
 
   public selectRoom(room: any): void {
-    console.log('selecr', room)
     this.chatRoomService.setRoomId(room.roomId);
     this.chatRoomService.setRoomObjectId(room._id);
     this.chatService.joinRoom(room.roomId, this.userService.getUserId());
@@ -117,7 +115,7 @@ export class SidebarComponent implements OnInit {
     if (event.target.checked) {
       this.selectedFriends.push(friend);
     } else {
-      this.selectedFriends = this.selectedFriends.filter(f => f.userId !== friend.userId);  // Remove if unchecked
+      this.selectedFriends = this.selectedFriends.filter(f => f.userId !== friend.userId);  
     }
   }
   public createGroup(): void {
@@ -164,15 +162,12 @@ export class SidebarComponent implements OnInit {
 
   public acceptFriendRequest(requestId: string): void {
     this.friendService.acceptFriendRequest(requestId).subscribe((acceptResponse) => {
-      console.log('response of accp', acceptResponse.id)
-
       this.userService.acceptFriendRequest(acceptResponse.sender.id);
     });
   }
 
   public declineFriendRequest(requestId: string): void {
     this.friendService.rejectFriendRequest(requestId).subscribe((rejectResponse) => {
-      console.log('response of rej', rejectResponse.id)
       this.userService.declineFriendRequest(rejectResponse.sender.id);
     });
   }
@@ -181,28 +176,24 @@ export class SidebarComponent implements OnInit {
     return this.userService.isFriendRequestSent(userId);
   }
 
-  // Filter chat rooms based on the search query
   public getFilteredChatRooms(): any[] {
     return this.chatRooms.filter(room =>
       room.name.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
   }
 
-  // Filter all chat rooms based on the search query
   public getFilteredAllChatRooms(): any[] {
     return this.allChatRooms.filter(room =>
       room.name.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
   }
 
-  // Filter all users based on the search query
   public getFilteredAllUsers(): any[] {
     return this.allUsers.filter(user =>
       user.username.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
   }
 
-  // Filter friend requests based on the search query
   public getFilteredFriendRequests(): any[] {
     return this.friendRequests.filter(request =>
       request.sender.username.toLowerCase().includes(this.searchQuery.toLowerCase())

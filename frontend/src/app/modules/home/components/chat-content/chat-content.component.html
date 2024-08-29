@@ -12,7 +12,7 @@
       </div>
       <div *ngFor="let group of groupedMessages">
         <div class="message-date-header">
-          {{ group.date!=='undefined' ? group.date : "" }}
+          {{ group.date !== "undefined" ? group.date : "" }}
         </div>
         <div
           *ngFor="let message of group.messages"

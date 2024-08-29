@@ -13,12 +13,11 @@ export class ChatRoomService {
 
   constructor() { }
 
-  public setRoomId(roomId: string): void{
+  public setRoomId(roomId: string): void {
     this.roomIdSubject.next(roomId);
   }
 
-  public setRoomObjectId(roomObjectId: string): void{
-    console.log('Setting room objectId', roomObjectId)
+  public setRoomObjectId(roomObjectId: string): void {
     this.roomObjectIdSubject.next(roomObjectId);
   }
 }

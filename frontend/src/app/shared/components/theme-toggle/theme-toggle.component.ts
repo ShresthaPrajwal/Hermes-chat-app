@@ -19,7 +19,6 @@ export class ThemeToggleComponent {
   }
 
   public toggleDarkMode(): void {
-    console.log('clicked theme button')
     this.isDarkMode = !this.isDarkMode;
     this.themeService.switchTheme(this.isDarkMode);
   }

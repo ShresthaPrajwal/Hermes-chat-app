@@ -11,7 +11,6 @@ import { CardModule } from 'primeng/card';
 import { SocketIoModule } from 'ngx-socket-io';
 import { socketConfig } from '../../environments/socket-config';
 import { NotFoundComponent } from './shared/pages/not-found/not-found.component';
-import { ChatSkeletonComponent } from './shared/components/skeleton/chat-skeleton/chat-skeleton.component';
 @NgModule({
   declarations: [
     AppComponent,

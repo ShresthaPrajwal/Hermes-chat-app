@@ -167,7 +167,7 @@ export class UserService {
     this.removeFriendRequest(userId);
   }
 
-  
+
 
   public clearUserData(): void {
     this.userIdSubject.next(null);

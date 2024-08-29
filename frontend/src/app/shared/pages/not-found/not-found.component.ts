@@ -7,10 +7,10 @@ import { Router } from '@angular/router';
   styleUrl: './not-found.component.scss'
 })
 export class NotFoundComponent {
-  constructor(private router: Router){
+  constructor(private router: Router) {
   }
 
-  public goHome(): void{
+  public goHome(): void {
     this.router.navigate(['/auth/login']);
   }
 }

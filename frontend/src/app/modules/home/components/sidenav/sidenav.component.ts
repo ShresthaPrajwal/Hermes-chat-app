@@ -56,10 +56,9 @@ export class SidenavComponent implements OnInit {
   public updateProfilePicture(): void {
     if (this.newProfilePictureFile) {
       try {
-        const updatedUser = this.usersService.updateProfilePicture(this.userService.getUserId(),this.newProfilePictureFile).subscribe(newProfileResponse=>{
-          console.log('New Profile response',newProfileResponse);
-        this.profilePicture = newProfileResponse.user.profilePicture;
-          
+        const updatedUser = this.usersService.updateProfilePicture(this.userService.getUserId(), this.newProfilePictureFile).subscribe(newProfileResponse => {
+          this.profilePicture = newProfileResponse.user.profilePicture;
+
         });
         this.displayEditProfileDialog = false;
       } catch (error) {

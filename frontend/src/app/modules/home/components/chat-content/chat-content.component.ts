@@ -123,7 +123,7 @@ export class ChatContentComponent implements OnInit, OnChanges {
     } else if (date.toDateString() === yesterday.toDateString()) {
       return 'Yesterday';
     } else {
-      return date.toDateString(); 
+      return date.toDateString();
     }
   }
 

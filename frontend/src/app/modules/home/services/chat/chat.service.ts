@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { Observable, ObservableLike } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '../../../../../../environments/environment';
 
 @Injectable({
@@ -12,7 +12,6 @@ export class ChatService {
   constructor(private socket: Socket, private http: HttpClient) { }
 
   public joinRoom(roomId: string, userId: string): void {
-    console.log('Joining with ', roomId, userId)
     this.socket.emit('join room', { roomId, userId });
   }
 
