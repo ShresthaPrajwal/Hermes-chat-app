@@ -16,6 +16,7 @@ import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme
 import { LogoComponent } from '../../shared/components/logo/logo.component';
 import { MenuModule } from 'primeng/menu';
 import { CardModule } from 'primeng/card';
+import { ChatSkeletonComponent } from '../../shared/components/skeleton/chat-skeleton/chat-skeleton.component';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -36,7 +37,8 @@ import { CardModule } from 'primeng/card';
     MultiSelectModule,
     CardModule,
     ThemeToggleComponent,
-    LogoComponent
+    LogoComponent,
+    ChatSkeletonComponent
   ],
   exports: [HomeComponent]
 })

@@ -6,48 +6,56 @@
     <h2>{{ chatTitle }}</h2>
   </div>
   <div class="chat-messages" #chatMessagesContainer>
-    <div *ngFor="let group of groupedMessages">
-      <div class="message-date-header">{{ group.date }}</div>
-      <div
-        *ngFor="let message of group.messages"
-        [ngClass]="[
-          message.senderId.id === userId ? 'current-user' : 'other-user',
-          isDarkMode ? 'dark-theme' : 'light-theme'
-        ]"
-      >
-        <div class="message-content">
-          <div class="message-header">
-            <img
-              class="message-profile-picture"
-              [src]="
-                message.senderId.profilePicture
-                  ? message.senderId.profilePicture
-                  : 'assets/photos/default.png'
-              "
-              alt="Profile Picture"
-            />
-            <span class="message-username">{{
-              message.senderId.username
-            }}</span>
-          </div>
-          <div class="message-content-inner">
-            <div *ngIf="message.imageUrl; else textMessage">
+    <ng-container *ngIf="!loading; else skeletonLoading">
+      <div *ngFor="let group of groupedMessages">
+        <div class="message-date-header">{{ group.date }}</div>
+        <div
+          *ngFor="let message of group.messages"
+          [ngClass]="[
+            message.senderId.id === userId ? 'current-user' : 'other-user',
+            isDarkMode ? 'dark-theme' : 'light-theme'
+          ]"
+        >
+          <div class="message-content">
+            <div class="message-header">
               <img
-                [src]="message.imageUrl"
-                alt="Sent Image"
-                class="message-image"
+                class="message-profile-picture"
+                [src]="
+                  message.senderId.profilePicture
+                    ? message.senderId.profilePicture
+                    : 'assets/photos/default.png'
+                "
+                alt="Profile Picture"
               />
+              <span class="message-username">{{
+                message.senderId.username
+              }}</span>
             </div>
-            <ng-template #textMessage>
-              <div class="message-text">{{ message.content }}</div>
-            </ng-template>
-            <div class="message-timestamp">
-              {{ message.timestamp | date : "shortTime" }}
+            <div class="message-content-inner">
+              <div *ngIf="message.imageUrl; else textMessage">
+                <img
+                  [src]="message.imageUrl"
+                  alt="Sent Image"
+                  class="message-image"
+                />
+              </div>
+              <ng-template #textMessage>
+                <div class="message-text">{{ message.content }}</div>
+              </ng-template>
+              <div class="message-timestamp">
+                {{ message.timestamp | date : "shortTime" }}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </ng-container>
+    <ng-template #skeletonLoading>
+      <app-chat-skeleton
+        *ngFor="let skeleton of [1, 2, 3, 4, 5]"
+        [isCurrentUser]="skeleton % 2 === 0"
+      ></app-chat-skeleton>
+    </ng-template>
   </div>
   <div class="chat-input-container">
     <input

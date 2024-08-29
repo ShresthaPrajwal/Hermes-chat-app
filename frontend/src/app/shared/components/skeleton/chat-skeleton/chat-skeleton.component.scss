@@ -1,0 +1,64 @@
+.message-skeleton-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5em;
+    max-width: 100%;
+  }
+  
+  .current-user {
+    align-self: flex-end;
+    text-align: right;
+    
+    .message-skeleton-header {
+      flex-direction: row-reverse;
+    }
+    
+    .skeleton-message-content {
+      align-self: flex-end;
+      background-color: #e0e0e0; 
+    }
+  }
+  
+  .other-user {
+    align-self: flex-start;
+    text-align: left;
+    
+    .message-skeleton-header {
+      flex-direction: row;
+    }
+    
+    .skeleton-message-content {
+      align-self: flex-start;
+      background-color: #f0f0f0; 
+    }
+  }
+  
+  .message-skeleton-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    gap:1em;
+  }
+  
+  .skeleton-profile-picture {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin-right: 10px;
+  }
+  
+  .skeleton-username {
+    width: 100px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 5px;
+  }
+  
+  .skeleton-message-content {
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 10px;
+    margin-top: 5px;
+    width: 40%;
+  }

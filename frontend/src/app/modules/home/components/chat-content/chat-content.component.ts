@@ -22,6 +22,8 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   public showBackButton: boolean = false;
   public isDarkMode: boolean = false;
 
+  public loading : boolean = true;
+
   @ViewChild('chatMessagesContainer') private chatMessagesContainer !: ElementRef;
 
   constructor(
@@ -87,8 +89,8 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
 
   public loadMessages(): void {
     if (this.roomId) {
+      this.loading = true;
       this.chatService.getMessages(this.roomId).subscribe((messages: any[]) => {
-        console.log('messages', messages)
         this.messages = messages
           .filter(msg => msg.senderId !== null)
           .map(msg => {
@@ -97,12 +99,14 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
               date: new Date(msg.timestamp).toDateString(),
             };
           });
-
+  
         this.groupedMessages = this.groupMessagesByDate(this.messages);
         this.scrollToBottom();
+        this.loading = false;
       });
     }
   }
+  
 
   private groupMessagesByDate(messages: any[]): { date: string, messages: any[] }[] {
     const grouped = messages.reduce((acc, message) => {
