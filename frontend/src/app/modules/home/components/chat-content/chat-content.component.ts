@@ -2,6 +2,7 @@ import { Component, OnInit, OnChanges, SimpleChange, SimpleChanges, ViewChild, E
 import { ChatService } from '../../services/chat/chat.service';
 import { ChatRoomService } from '../../services/chat/chat-room.service';
 import { UserService } from '../../../auth/services/user.service';
+import { ThemeService } from '../../../../shared/services/theme/theme.service';
 @Component({
   selector: 'app-chat-content',
   templateUrl: './chat-content.component.html',
@@ -19,6 +20,7 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   public selectedImage: File | null = null;
 
   public showBackButton: boolean = false;
+  public isDarkMode: boolean = false;
 
   @ViewChild('chatMessagesContainer') private chatMessagesContainer !: ElementRef;
 
@@ -26,9 +28,17 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
     private chatService: ChatService,
     private chatRoomService: ChatRoomService,
     private userService: UserService,
+    private themeService: ThemeService
   ) { }
 
   ngOnInit(): void {
+
+    this.isDarkMode = this.themeService.isDarkMode();
+
+    this.themeService.themeChanged.subscribe(isDark => {
+      this.isDarkMode = isDark;
+    });
+
     this.chatRoomService.roomId$.subscribe(roomId => {
       this.userId = this.userService.getUserId();
       this.roomId = roomId;
@@ -84,7 +94,7 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
           .map(msg => {
             return {
               ...msg,
-              date: new Date(msg.timestamp).toDateString(), // Extract the date
+              date: new Date(msg.timestamp).toDateString(),
             };
           });
 

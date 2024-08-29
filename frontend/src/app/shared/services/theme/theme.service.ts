@@ -24,10 +24,12 @@ export class ThemeService {
     const savedTheme = localStorage.getItem('theme') || this.lightTheme;
     const themeLink = document.getElementById('app-theme') as HTMLLinkElement;
     themeLink.href = `assets/themes/${savedTheme}/theme.css`;
+    this.themeChanged.next(savedTheme === this.darkTheme);
   }
 
-  public isDarkMode(): boolean{
+  public isDarkMode(): boolean {
     const savedTheme = localStorage.getItem('theme');
-    return savedTheme === this.darkTheme
+    return savedTheme === this.darkTheme;
   }
 }
+

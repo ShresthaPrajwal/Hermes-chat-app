@@ -72,8 +72,6 @@
       }
     }
   }
-
-
 }
 
 app-logo {
@@ -110,11 +108,11 @@ app-theme-toggle {
   margin: 0;
 }
 
-.theme-button{
+.theme-button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap:0.5em;
+  gap: 0.5em;
 }
 
 .logout-button {

@@ -10,9 +10,10 @@
       <div class="message-date-header">{{ group.date }}</div>
       <div
         *ngFor="let message of group.messages"
-        [ngClass]="
-          message.senderId.id === userId ? 'current-user' : 'other-user'
-        "
+        [ngClass]="[
+          message.senderId.id === userId ? 'current-user' : 'other-user',
+          isDarkMode ? 'dark-theme' : 'light-theme'
+        ]"
       >
         <div class="message-content">
           <div class="message-header">
@@ -71,6 +72,7 @@
     </label>
     <i
       class="pi pi-send send-icon"
+      [ngClass]="isDarkMode ? 'dark-theme' : 'light-theme'"
       (click)="selectedImage ? sendImage() : sendMessage()"
     ></i>
   </div>
