@@ -73,7 +73,7 @@ export class SidebarComponent implements OnInit {
         const currentUserId = this.userService.getUserId();
         const friendIds = this.friends.map(friend => friend.userId);
         const friendRequestsIds = this.userService.getFriendRequests();
-        
+
         this.allUsers = users.filter(user => !this.friends.includes(user.userId) && user.userId !== currentUserId);
         this.friendRequests = users.filter(user => friendRequestsIds.includes(user.userId));
 
@@ -169,12 +169,20 @@ export class SidebarComponent implements OnInit {
   public acceptFriendRequest(requestId: string): void {
     this.friendService.acceptFriendRequest(requestId).subscribe((acceptResponse) => {
       this.userService.acceptFriendRequest(acceptResponse.sender.id);
+      this.refreshFriendRequests();
     });
   }
 
   public declineFriendRequest(requestId: string): void {
     this.friendService.rejectFriendRequest(requestId).subscribe((rejectResponse) => {
       this.userService.declineFriendRequest(rejectResponse.sender.id);
+      this.refreshFriendRequests();
+    });
+  }
+
+  public refreshFriendRequests(): void {
+    this.friendService.fetchFriendRequests(this.userService.getUserId()).subscribe(requests => {
+      this.friendRequests = requests.friendRequests;
     });
   }
 
