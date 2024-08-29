@@ -7,8 +7,13 @@
   </div>
   <div class="chat-messages" #chatMessagesContainer>
     <ng-container *ngIf="!loading; else skeletonLoading">
+      <div *ngIf="groupedMessages.length === 0" class="no-messages">
+        <p>Hi, start the conversation!</p>
+      </div>
       <div *ngFor="let group of groupedMessages">
-        <div class="message-date-header">{{ group.date }}</div>
+        <div class="message-date-header">
+          {{ group.date!=='undefined' ? group.date : "" }}
+        </div>
         <div
           *ngFor="let message of group.messages"
           [ngClass]="[

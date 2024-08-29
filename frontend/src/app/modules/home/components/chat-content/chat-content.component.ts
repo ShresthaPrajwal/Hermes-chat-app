@@ -1,14 +1,15 @@
-import { Component, OnInit, OnChanges, SimpleChange, SimpleChanges, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { ChatService } from '../../services/chat/chat.service';
 import { ChatRoomService } from '../../services/chat/chat-room.service';
 import { UserService } from '../../../auth/services/user.service';
 import { ThemeService } from '../../../../shared/services/theme/theme.service';
+
 @Component({
   selector: 'app-chat-content',
   templateUrl: './chat-content.component.html',
   styleUrls: ['./chat-content.component.scss']
 })
-export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
+export class ChatContentComponent implements OnInit, OnChanges {
   public messages: any[] = [];
   public currentMessage: string = '';
   public roomId: string = '';
@@ -21,10 +22,9 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
 
   public showBackButton: boolean = false;
   public isDarkMode: boolean = false;
+  public loading: boolean = true;
 
-  public loading : boolean = true;
-
-  @ViewChild('chatMessagesContainer') private chatMessagesContainer !: ElementRef;
+  @ViewChild('chatMessagesContainer') private chatMessagesContainer!: ElementRef;
 
   constructor(
     private chatService: ChatService,
@@ -34,7 +34,6 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-
     this.isDarkMode = this.themeService.isDarkMode();
 
     this.themeService.themeChanged.subscribe(isDark => {
@@ -44,47 +43,40 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
     this.chatRoomService.roomId$.subscribe(roomId => {
       this.userId = this.userService.getUserId();
       this.roomId = roomId;
-      console.log('Current room Id', this.roomId)
       if (this.roomId) {
         this.loadMessages();
         this.showBackButton = window.innerWidth <= 768;
       }
-    })
+    });
 
     this.chatRoomService.roomObjectId$.subscribe(roomObjectId => {
       this.roomObjectId = roomObjectId;
       this.updateRoomInfo();
-      console.log('Current room Object Id', this.roomObjectId)
-    })
+    });
 
-    this.chatService.receiveMessage().subscribe((message) => {
-      console.log('message aira cha', message)
+    this.chatService.receiveMessage().subscribe(message => {
       this.messages.push(message);
-      this.loadMessages();
-    })
+      this.groupedMessages = this.groupMessagesByDate(this.messages);
+      this.scrollToBottom();
+    });
 
-    this.chatService.getRoomInfo(this.roomId).subscribe((roomInfo) => {
-      console.log('roominfo', roomInfo)
+    this.chatService.getRoomInfo(this.roomId).subscribe(roomInfo => {
       this.chatTitle = roomInfo.name;
       this.users = roomInfo.users;
-    })
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['roomId'] && this.roomId) {
       this.loadMessages();
-      this.scrollToBottom();
     }
   }
 
-  ngAfterViewInit(): void {
-  }
-
   private updateRoomInfo(): void {
-    this.chatService.getRoomInfo(this.roomObjectId).subscribe((roomInfo) => {
+    this.chatService.getRoomInfo(this.roomObjectId).subscribe(roomInfo => {
       this.chatTitle = roomInfo.name;
       this.users = roomInfo.users;
-    })
+    });
   }
 
   public loadMessages(): void {
@@ -93,24 +85,21 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
       this.chatService.getMessages(this.roomId).subscribe((messages: any[]) => {
         this.messages = messages
           .filter(msg => msg.senderId !== null)
-          .map(msg => {
-            return {
-              ...msg,
-              date: new Date(msg.timestamp).toDateString(),
-            };
-          });
-  
+          .map(msg => ({
+            ...msg,
+            date: new Date(msg.timestamp).toDateString(),
+          }));
+
         this.groupedMessages = this.groupMessagesByDate(this.messages);
         this.scrollToBottom();
         this.loading = false;
       });
     }
   }
-  
 
   private groupMessagesByDate(messages: any[]): { date: string, messages: any[] }[] {
     const grouped = messages.reduce((acc, message) => {
-      const date = message.date;
+      const date = this.formatDate(new Date(message.timestamp));
       if (!acc[date]) {
         acc[date] = [];
       }
@@ -124,8 +113,22 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
     }));
   }
 
+  private formatDate(date: Date): string {
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    if (date.toDateString() === today.toDateString()) {
+      return 'Today';
+    } else if (date.toDateString() === yesterday.toDateString()) {
+      return 'Yesterday';
+    } else {
+      return date.toDateString(); 
+    }
+  }
+
   public sendMessage(): void {
-    if (this.roomId) {
+    if (this.roomId && this.currentMessage.trim()) {
       this.chatService.sendMessage(this.roomId, this.currentMessage, this.userId);
       this.currentMessage = '';
       this.scrollToBottom();
@@ -133,12 +136,10 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public goBack(): void {
-    console.log('gack')
     if (window.innerWidth <= 768) {
       const chatContentElement = document.querySelector('app-chat-content');
       const chatsidenav = document.querySelector('app-sidenav');
       const chatsidebar = document.querySelector('app-sidebar');
-      console.log(chatContentElement, chatsidebar, chatsidebar)
       if (chatContentElement) {
         chatContentElement.classList.replace('active', 'inactive');
       }
@@ -148,7 +149,6 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
       if (chatsidenav) {
         chatsidenav.classList.replace('inactive', 'active');
       }
-
     }
   }
 
@@ -161,18 +161,16 @@ export class ChatContentComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public sendImage(): void {
-    console.log('roomid<roomobj id', this.roomId, this.roomObjectId);
     if (this.selectedImage) {
       this.chatService.sendImage(this.roomObjectId, this.userId, this.selectedImage).subscribe(response => {
-        console.log('response while sending image ',response)
         if (response && response.message._id) {
           this.chatService.sendImageNotification(this.roomId, response.message._id, this.userId);
         }
       });
-
       this.selectedImage = null;
     }
   }
+
   private scrollToBottom(): void {
     setTimeout(() => {
       const container = this.chatMessagesContainer.nativeElement;
