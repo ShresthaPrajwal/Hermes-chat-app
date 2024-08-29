@@ -1,0 +1,10 @@
+<div
+  class="message-skeleton-container"
+  [ngClass]="isCurrentUser ? 'current-user' : 'other-user'"
+>
+  <div class="message-skeleton-header">
+    <div class="skeleton-profile-picture"></div>
+    <div class="skeleton-username"></div>
+  </div>
+  <div class="skeleton-message-content"></div>
+</div>

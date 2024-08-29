@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #chat { margin-top: 20px; }
+        #messages { list-style-type: none; margin: 0; padding: 0; }
+        #messages li { padding: 8px; margin-bottom: 10px; background: #f3f3f3; border-radius: 4px; }
+        #form { display: flex; }
+        #input { flex: 1; padding: 10px; }
+        #button { padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Socket.IO Chat</h1>
+
+    <div>
+        <label for="roomId">Room ID:</label>
+        <input type="text" id="roomId" placeholder="Enter Room ID" />
+        <label for="userId">User ID:</label>
+        <input type="text" id="userId" placeholder="Enter User ID" />
+        <button id="joinRoom">Join Room</button>
+    </div>
+
+    <ul id="messages"></ul>
+    <form id="form" action="">
+        <input id="input" autocomplete="off" /><button id="button">Send</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        const form = document.getElementById('form');
+        const input = document.getElementById('input');
+        const messages = document.getElementById('messages');
+        const joinRoomBtn = document.getElementById('joinRoom');
+        let currentRoomId = null;
+        let currentUserId = null;
+
+        joinRoomBtn.addEventListener('click', function() {
+            const roomIdInput = document.getElementById('roomId').value;
+            const userIdInput = document.getElementById('userId').value;
+
+            if (roomIdInput && userIdInput) {
+                currentRoomId = roomIdInput;
+                currentUserId = userIdInput;
+                socket.emit('join room', { roomId: currentRoomId, userId: currentUserId });
+            }
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (input.value && currentRoomId && currentUserId) {
+                socket.emit('chat message', {
+                    roomId: currentRoomId,
+                    userId: currentUserId,
+                    message: input.value
+                });
+                input.value = '';
+            }
+        });
+
+        socket.on('chat message', function(msg) {
+            const item = document.createElement('li');
+            item.textContent = `${msg.userId}: ${msg.message}`;
+            messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+
+        socket.on('error', function(error) {
+            alert(error.message);
+        });
+    </script>
+</body>
+</html>

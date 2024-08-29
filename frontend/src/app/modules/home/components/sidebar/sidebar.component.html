@@ -1,0 +1,170 @@
+<div class="sidebar-component">
+  <div class="sidebar-navbar">
+    <h2>{{ selectedTab | titlecase }}</h2>
+    <p-button
+      class="group-create-btn"
+      (click)="openGroupCreationModal()"
+      [text]="true"
+    >
+      <i class="pi pi-pen-to-square"></i>
+    </p-button>
+  </div>
+  <p-dialog
+    header="Create Group"
+    [(visible)]="groupModalVisible"
+    [modal]="true"
+    [closable]="true"
+  >
+    <div class="create-group-form">
+      <label for="groupName">Group Name</label>
+      <input
+        pInputText
+        type="text"
+        [(ngModel)]="groupName"
+        placeholder="Enter group name"
+      />
+
+      <label for="friends">Select Friends</label>
+      <div id="friends" class="friends-list">
+        <div *ngFor="let friend of friends" class="friend-item">
+          <input
+            type="checkbox"
+            [value]="friend.userId"
+            (change)="onFriendSelection($event, friend)"
+            id="{{ friend.userId }}"
+          />
+          <label for="{{ friend.userId }}">
+            <span>{{ friend.username }}</span>
+          </label>
+        </div>
+      </div>
+
+      <p-button
+        label="Create Group"
+        (click)="createGroup()"
+        [disabled]="!groupName || selectedFriends.length === 0"
+      ></p-button>
+    </div>
+  </p-dialog>
+  <div class="search-bar">
+    <input
+      pInputText
+      type="text"
+      placeholder="Search..."
+      [(ngModel)]="searchQuery"
+    />
+  </div>
+  <div class="sidebar-contents">
+    <div *ngIf="selectedTab === 'chats'" class="sidebar-contents-overflow">
+      <div
+        class="sidebar-individual-content-chats"
+        *ngFor="let chat of getFilteredChatRooms()"
+        (click)="selectRoom(chat)"
+      >
+        <i class="pi pi-user"></i>
+        <h4>{{ chat.name }}</h4>
+      </div>
+    </div>
+    <div *ngIf="selectedTab === 'groups'" class="sidebar-contents-overflow">
+      <div
+        *ngIf="getFilteredAllChatRooms().length === 0"
+        class="no-groups-message"
+      >
+        Join a group from explore first
+      </div>
+      <div
+        class="sidebar-individual-content"
+        *ngFor="let group of getFilteredAllChatRooms()"
+      >
+        <div class="pic-name">
+          <i class="pi pi-users"></i>
+          <h4>{{ group.name }}</h4>
+        </div>
+        <p-button
+          label="Join"
+          [text]="true"
+          severity="secondary"
+          *ngIf="!isUserInRoom(group)"
+          (click)="joinGroup(group)"
+          class="join-leave-button"
+        ></p-button>
+        <p-button
+          label="Leave"
+          [text]="true"
+          severity="secondary"
+          *ngIf="isUserInRoom(group)"
+          (click)="leaveGroup(group)"
+          class="join-leave-button"
+        ></p-button>
+      </div>
+    </div>
+    <div *ngIf="selectedTab === 'peoples'" class="sidebar-contents-overflow">
+      <div class="peoples-content" *ngFor="let user of getFilteredAllUsers()">
+        <div class="peoples-pic-name">
+          <img
+            *ngIf="!user.profilePicture"
+            src="assets/photos/default.png"
+            alt="Profile Picture"
+          />
+          <img
+            *ngIf="user.profilePicture"
+            [src]="user.profilePicture"
+            alt="Profile Picture"
+          />
+          <p>{{ user.username }}</p>
+        </div>
+        <p-button
+          class="join-leave-button"
+          [text]="true"
+          severity="secondary"
+          icon="pi"
+          [icon]="
+            hasSentRequest(user.userId) ? 'pi pi-check' : 'pi pi-user-plus'
+          "
+          (click)="addFriend(user)"
+          [disabled]="hasSentRequest(user.userId)"
+        >
+        </p-button>
+      </div>
+    </div>
+
+    <div *ngIf="selectedTab === 'requests'" class="sidebar-contents-overflow">
+      <div
+        *ngIf="getFilteredFriendRequests().length === 0"
+        class="no-requests-message"
+      >
+        No requests yet
+      </div>
+      <div
+        class="friend-request"
+        *ngFor="let request of getFilteredFriendRequests()"
+      >
+        <div class="peoples-pic-name">
+          <i *ngIf="!request.sender.profilePicture" class="pi pi-user"></i>
+          <img
+            *ngIf="request.sender.profilePicture"
+            [src]="request.sender.profilePicture"
+            alt="Profile Picture"
+          />
+          <p>{{ request.sender.username }}</p>
+        </div>
+        <div class="requests-buttons">
+          <p-button
+            label="Accept"
+            [text]="true"
+            severity="success"
+            (click)="acceptFriendRequest(request._id)"
+            class="join-leave-button"
+          ></p-button>
+          <p-button
+            label="Decline"
+            [text]="true"
+            severity="danger"
+            (click)="declineFriendRequest(request._id)"
+            class="join-leave-button"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
