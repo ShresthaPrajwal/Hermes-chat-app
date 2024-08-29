@@ -80,7 +80,11 @@
     <div *ngIf="selectedTab === 'peoples'" class="sidebar-contents-overflow">
       <div class="peoples-content" *ngFor="let user of getFilteredAllUsers()">
         <div class="peoples-pic-name">
-          <i *ngIf="!user.profilePicture" class="pi pi-user"></i>
+          <img
+            *ngIf="!user.profilePicture"
+            src="assets/photos/default.png"
+            alt="Profile Picture"
+          />
           <img
             *ngIf="user.profilePicture"
             [src]="user.profilePicture"
