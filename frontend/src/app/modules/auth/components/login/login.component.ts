@@ -44,7 +44,6 @@ export class LoginComponent implements OnInit {
         })
       ).subscribe(response => {
         if (response) {
-          console.log('User logged in', response)
           this.UserService.setUserData({
             userId: response.userId,
             username: response.username,
