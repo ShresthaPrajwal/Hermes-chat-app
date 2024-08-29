@@ -4,7 +4,6 @@
   height: 100%;
   border: 1px solid #ccc;
   border-radius: 10px;
-  border-right: 1px solid #ccc;
 }
 
 .search-bar {
@@ -132,7 +131,6 @@ p-button.join-leave-button ::ng-deep button {
 .friend-request {
   flex-direction: column;
   .requests-buttons {
-    // border: 1px solid red;
     display: flex;
     gap: 0.5em;
     justify-content: space-between;
