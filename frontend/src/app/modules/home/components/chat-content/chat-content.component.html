@@ -1,0 +1,92 @@
+<div class="chat-content">
+  <div class="chat-content-navbar">
+    <div *ngIf="showBackButton" class="back-button">
+      <i class="pi pi-angle-left" (click)="goBack()"></i>
+    </div>
+    <h2>{{ chatTitle }}</h2>
+  </div>
+  <div class="chat-messages" #chatMessagesContainer>
+    <ng-container *ngIf="!loading; else skeletonLoading">
+      <div *ngIf="groupedMessages.length === 0" class="no-messages">
+        <p>Hi, start the conversation!</p>
+      </div>
+      <div *ngFor="let group of groupedMessages">
+        <div class="message-date-header">
+          {{ group.date !== "undefined" ? group.date : "" }}
+        </div>
+        <div
+          *ngFor="let message of group.messages"
+          [ngClass]="[
+            message.senderId.id === userId ? 'current-user' : 'other-user',
+            isDarkMode ? 'dark-theme' : 'light-theme'
+          ]"
+        >
+          <div class="message-content">
+            <div class="message-header">
+              <img
+                class="message-profile-picture"
+                [src]="
+                  message.senderId.profilePicture
+                    ? message.senderId.profilePicture
+                    : 'assets/photos/default.png'
+                "
+                alt="Profile Picture"
+              />
+              <span class="message-username">{{
+                message.senderId.username
+              }}</span>
+            </div>
+            <div class="message-content-inner">
+              <div *ngIf="message.imageUrl; else textMessage">
+                <img
+                  [src]="message.imageUrl"
+                  alt="Sent Image"
+                  class="message-image"
+                />
+              </div>
+              <ng-template #textMessage>
+                <div class="message-text">{{ message.content }}</div>
+              </ng-template>
+              <div class="message-timestamp">
+                {{ message.timestamp | date : "shortTime" }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #skeletonLoading>
+      <app-chat-skeleton
+        *ngFor="let skeleton of [1, 2, 3, 4, 5]"
+        [isCurrentUser]="skeleton % 2 === 0"
+      ></app-chat-skeleton>
+    </ng-template>
+  </div>
+  <div class="chat-input-container">
+    <input
+      class="search-input"
+      [(ngModel)]="currentMessage"
+      pInputText
+      type="text"
+      placeholder="Send Messages..."
+    />
+    <input
+      type="file"
+      #imageInput
+      (change)="onImageSelected(imageInput.files)"
+      hidden
+      id="imageUpload"
+    />
+    <label for="imageUpload">
+      <i
+        class="pi pi-paperclip clip-icon"
+        [ngClass]="{ 'file-selected': selectedImage }"
+      ></i>
+    </label>
+    <i
+      class="pi pi-send send-icon"
+      [ngClass]="isDarkMode ? 'dark-theme' : 'light-theme'"
+      (click)="selectedImage ? sendImage() : sendMessage()"
+    ></i>
+  </div>
+</div>
