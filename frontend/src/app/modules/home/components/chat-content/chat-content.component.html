@@ -69,6 +69,7 @@
       pInputText
       type="text"
       placeholder="Send Messages..."
+      (keydown.enter)="selectedImage ? sendImage() : sendMessage()"
     />
     <input
       type="file"
