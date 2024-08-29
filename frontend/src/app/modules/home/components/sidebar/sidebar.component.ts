@@ -71,9 +71,15 @@ export class SidebarComponent implements OnInit {
     if (this.selectedTab === 'peoples') {
       this.usersService.getAllUsers().subscribe(users => {
         const currentUserId = this.userService.getUserId();
+        const friendIds = this.friends.map(friend => friend.userId);
         const friendRequestsIds = this.userService.getFriendRequests();
+        
         this.allUsers = users.filter(user => !this.friends.includes(user.userId) && user.userId !== currentUserId);
         this.friendRequests = users.filter(user => friendRequestsIds.includes(user.userId));
+
+        this.allUsers = users.filter(user =>
+          !friendIds.includes(user.userId) && user.userId !== currentUserId
+        );
       });
     }
 
@@ -115,7 +121,7 @@ export class SidebarComponent implements OnInit {
     if (event.target.checked) {
       this.selectedFriends.push(friend);
     } else {
-      this.selectedFriends = this.selectedFriends.filter(f => f.userId !== friend.userId);  
+      this.selectedFriends = this.selectedFriends.filter(f => f.userId !== friend.userId);
     }
   }
   public createGroup(): void {
