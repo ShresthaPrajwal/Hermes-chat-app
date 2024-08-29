@@ -1,3 +1,5 @@
+@import '../../../../../styles.scss';
+
 .sidebar-component {
   height: 100%;
   border: 1px solid #ccc;
@@ -72,7 +74,7 @@
 .sidebar-individual-content-chats:hover,
 .peoples-content:hover,
 .friend-request:hover {
-  border: 1px solid #3498db;
+  border: 1px solid $primary-color;
 }
 
 .pic-name,
@@ -100,7 +102,7 @@ p-button.join-leave-button ::ng-deep button {
 }
 
 p-button.join-leave-button ::ng-deep button:hover {
-  border: 1px solid #3498db;
+  border: 1px solid $primary-color;
   background: #eaf2fc;
 }
 
@@ -123,7 +125,7 @@ p-button.join-leave-button ::ng-deep button {
   border-radius: 5px;
 
   &:hover {
-    border: 1px solid #3498db;
+    border: 1px solid $primary-color;
   }
 }
 
@@ -172,7 +174,7 @@ p-button.join-leave-button ::ng-deep button {
 .friend-item input[type="checkbox"] {
   width: 1rem;
   height: 1rem;
-  accent-color: #3498db;
+  accent-color: $primary-color;
   border-radius: 5px;
 }
 
@@ -192,7 +194,7 @@ p-button.join-leave-button ::ng-deep button {
 }
 
 .p-button-create-group:hover {
-  background-color: #2980b9;
+  background-color: $primary-color;
 }
 
 .p-button-create-group:disabled {
@@ -216,7 +218,7 @@ p-button.join-leave-button ::ng-deep button {
 }
 
 .group-create-btn:hover {
-  color: #3498db;
+  color: $primary-color;
 }
 
 .group-create-btn:disabled {
@@ -236,7 +238,7 @@ p-button.join-leave-button ::ng-deep button {
 }
 
 p-button.join-leave-button ::ng-deep button:hover {
-  border: 1px solid #3498db;
+  border: 1px solid $primary-color;
   background: #eaf2fc;
 }
 
@@ -260,7 +262,7 @@ p-button.join-leave-button ::ng-deep button[disabled] {
 }
 
 :host ::ng-deep .group-create-btn:hover {
-  color: #3498db;
+  color: $primary-color;
 }
 
 :host ::ng-deep .group-create-btn:disabled {
@@ -275,15 +277,15 @@ p-button.join-leave-button ::ng-deep button[disabled] {
 }
 
 :host ::ng-deep .group-create-btn:hover .pi {
-  color: #3498db;
+  color: $primary-color;
 }
 
 .no-groups-message {
   text-align: center;
-  color: #3498db; 
+  color: $primary-color; 
 }
 
 .no-requests-message {
   text-align: center;
-  color: #e74c3c;
+  color: $warning-color;
 }

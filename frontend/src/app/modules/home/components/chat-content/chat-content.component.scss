@@ -1,3 +1,5 @@
+@import '../../../../../styles.scss';
+
 .chat-content {
   padding: 1em;
   height: 100%;
@@ -129,7 +131,7 @@ p-button {
   }
 
   &.dark-theme .message-content-inner {
-    background-color: #3498db;
+    background-color: $primary-color;
     color: white;
   }
 
@@ -219,7 +221,7 @@ p-button {
     cursor: pointer;
 
     &:hover {
-      color: #3498db;
+      color: $primary-color;
     }
   }
 
@@ -229,11 +231,11 @@ p-button {
     transition: color 0.3s ease;
 
     &:hover {
-      color: #3498db;
+      color: $primary-color;
     }
 
     &.file-selected {
-      color: red;
+      color: $warning-color;
     }
   }
 }
